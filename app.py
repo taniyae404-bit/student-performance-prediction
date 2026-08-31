@@ -1,157 +1,3 @@
-import streamlit as st
-
-# ============================================================
-# PAGE CONFIGURATION
-# ============================================================
-
-st.set_page_config(
-    page_title="Student Performance AI",
-    page_icon="🎓",
-    layout="wide"
-)
-
-# ============================================================
-# CUSTOM CSS
-# ============================================================
-
-st.markdown("""
-<style>
-
-.main {
-    background-color: #f7f9fc;
-}
-
-.block-container {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-}
-
-h1 {
-    font-size: 2.4rem;
-}
-
-h2 {
-    margin-top: 1rem;
-}
-
-div[data-testid="stMetric"] {
-    background-color: white;
-    padding: 15px;
-    border-radius: 12px;
-    border: 1px solid #e6e9ef;
-}
-
-</style>
-""", unsafe_allow_html=True)
-
-# ============================================================
-# SIDEBAR
-# ============================================================
-
-st.sidebar.title("🎓 Student Performance AI")
-
-st.sidebar.caption(
-    "Machine Learning Early-Warning System"
-)
-
-page = st.sidebar.radio(
-    "Navigate",
-    [
-        "🏠 Dashboard",
-        "📚 Academic Performance",
-        "⏱️ Study Tracker",
-        "😴 Sleep & Routine",
-        "💚 Well-being",
-        "🧠 Risk Assessment",
-        "💬 Ask Student AI"
-    ]
-)
-
-st.sidebar.divider()
-
-st.sidebar.caption(
-    "Developed by Alishba Ejaz"
-)
-
-st.sidebar.caption(
-    "Developed using Machine Learning & Streamlit"
-)
-
-# ============================================================
-# DASHBOARD
-# ============================================================
-
-if page == "🏠 Dashboard":
-
-    st.title("🎓 Student Performance AI")
-
-    st.write(
-        "Welcome! This platform helps students monitor "
-        "their academic progress and identify potential "
-        "academic risk early."
-    )
-
-    st.divider()
-
-    st.subheader("📊 Student Overview")
-
-    col1, col2, col3, col4 = st.columns(4)
-
-    with col1:
-        st.metric(
-            "Risk Probability",
-            "—"
-        )
-
-    with col2:
-        st.metric(
-            "Academic Status",
-            "Not Assessed"
-        )
-
-    with col3:
-        st.metric(
-            "Study Hours",
-            "—"
-        )
-
-    with col4:
-        st.metric(
-            "Sleep",
-            "—"
-        )
-
-    st.divider()
-
-    st.subheader("🚀 Quick Actions")
-
-    col1, col2, col3 = st.columns(3)
-
-    with col1:
-        st.info(
-            "📚 **Academic Performance**\n\n"
-            "Record and review your academic results."
-        )
-
-    with col2:
-        st.info(
-            "⏱️ **Study Tracker**\n\n"
-            "Track your study and revision routine."
-        )
-
-    with col3:
-        st.info(
-            "🧠 **Risk Assessment**\n\n"
-            "Use the ML model to assess academic risk."
-        )
-
-    st.divider()
-
-    st.success(
-        "💡 Regular tracking can help you identify "
-        "areas that may need attention early."
-    )
-
 # ============================================================
 # ACADEMIC PERFORMANCE
 # ============================================================
@@ -161,125 +7,186 @@ elif page == "📚 Academic Performance":
     st.title("📚 Academic Performance")
 
     st.write(
-        "Track your test results and monitor your "
-        "academic progress over time."
+        "Record your recent academic performance and "
+        "identify subjects that may need more attention."
     )
 
-    st.info(
-        "Academic tracking will be added in the next step."
-    )
+    st.divider()
 
-# ============================================================
-# STUDY TRACKER
-# ============================================================
+    # --------------------------------------------------------
+    # SUBJECT PERFORMANCE
+    # --------------------------------------------------------
 
-elif page == "⏱️ Study Tracker":
+    st.subheader("📝 Enter Your Performance")
 
-    st.title("⏱️ Study Tracker")
+    col1, col2 = st.columns(2)
 
-    st.write(
-        "Keep track of your study hours and revision routine."
-    )
-
-    st.info(
-        "Study tracking will be added in the next step."
-    )
-
-# ============================================================
-# SLEEP & ROUTINE
-# ============================================================
-
-elif page == "😴 Sleep & Routine":
-
-    st.title("😴 Sleep & Routine")
-
-    st.write(
-        "Monitor your sleep routine and daily habits."
-    )
-
-    st.info(
-        "Sleep and routine tracking will be added in the next step."
-    )
-
-# ============================================================
-# WELL-BEING
-# ============================================================
-
-elif page == "💚 Well-being":
-
-    st.title("💚 Well-being")
-
-    st.write(
-        "Record simple weekly check-ins about your "
-        "mood and stress levels."
-    )
-
-    st.info(
-        "Well-being tracking will be added in the next step."
-    )
-
-# ============================================================
-# RISK ASSESSMENT
-# ============================================================
-
-elif page == "🧠 Risk Assessment":
-
-    st.title("🧠 ML Risk Assessment")
-
-    st.write(
-        "The machine-learning model estimates whether "
-        "a student may be potentially at risk of poor "
-        "academic performance."
-    )
-
-    st.info(
-        "The revised Logistic Regression model will be "
-        "connected here next."
-    )
-
-# ============================================================
-# ASK STUDENT AI
-# ============================================================
-
-elif page == "💬 Ask Student AI":
-
-    st.title("💬 Ask Student AI")
-
-    st.write(
-        "Need help deciding what to focus on? "
-        "Tell us about your academic difficulty."
-    )
-
-    question = st.text_area(
-        "What are you struggling with?",
-        placeholder=(
-            "Example: I'm struggling with Mathematics "
-            "and my marks aren't improving."
+    with col1:
+        subject = st.selectbox(
+            "Select Subject",
+            [
+                "Mathematics",
+                "Science",
+                "English",
+                "Computer Science",
+                "Social Science",
+                "Other"
+            ]
         )
-    )
 
-    if st.button("Get Guidance", use_container_width=True):
+    with col2:
+        assessment = st.text_input(
+            "Assessment / Exam Name",
+            placeholder="e.g. Unit Test 1"
+        )
 
-        if question.strip():
+    col1, col2, col3 = st.columns(3)
 
-            st.info(
-                "The student-support assistant will be "
-                "connected here next."
+    with col1:
+        marks_obtained = st.number_input(
+            "Marks Obtained",
+            min_value=0.0,
+            step=1.0
+        )
+
+    with col2:
+        total_marks = st.number_input(
+            "Total Marks",
+            min_value=1.0,
+            value=100.0,
+            step=1.0
+        )
+
+    with col3:
+        target_percentage = st.number_input(
+            "Target Percentage",
+            min_value=0.0,
+            max_value=100.0,
+            value=75.0,
+            step=1.0
+        )
+
+    # --------------------------------------------------------
+    # CALCULATE PERFORMANCE
+    # --------------------------------------------------------
+
+    if st.button(
+        "📊 Analyse Performance",
+        use_container_width=True
+    ):
+
+        percentage = (
+            marks_obtained / total_marks
+        ) * 100
+
+        st.divider()
+
+        st.subheader("📈 Performance Analysis")
+
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            st.metric(
+                "Percentage",
+                f"{percentage:.1f}%"
+            )
+
+        with col2:
+            st.metric(
+                "Target",
+                f"{target_percentage:.1f}%"
+            )
+
+        with col3:
+            difference = percentage - target_percentage
+
+            st.metric(
+                "Difference",
+                f"{difference:+.1f}%"
+            )
+
+        st.progress(
+            min(percentage / 100, 1.0)
+        )
+
+        # ----------------------------------------------------
+        # PERSONALIZED FEEDBACK
+        # ----------------------------------------------------
+
+        if percentage >= target_percentage:
+
+            st.success(
+                f"🎉 Good work! Your performance in "
+                f"**{subject}** is meeting your target."
+            )
+
+            st.write(
+                "Keep revising regularly and maintain "
+                "your current study routine."
+            )
+
+        elif percentage >= 50:
+
+            st.warning(
+                f"⚠️ Your performance in **{subject}** "
+                f"is below your target."
+            )
+
+            st.write(
+                "Consider revising the chapters where "
+                "you are making mistakes and practising "
+                "more questions."
             )
 
         else:
 
-            st.warning(
-                "Please describe what you are struggling with."
+            st.error(
+                f"🔴 **{subject}** may need additional attention."
             )
 
-# ============================================================
-# FOOTER
-# ============================================================
+            st.write(
+                "Try identifying the topics you find difficult, "
+                "revise the relevant chapters, and practise "
+                "questions regularly."
+            )
 
-st.divider()
+        # ----------------------------------------------------
+        # SAVE SESSION INFORMATION
+        # ----------------------------------------------------
 
-st.caption(
-    "Student Performance Early-Warning System | "
-    "Machine Learning + Streamlit"
-)
+        st.info(
+            "💡 This performance information can be used "
+            "alongside your study routine and AI guidance "
+            "to help identify areas that need attention."
+        )
+
+    st.divider()
+
+    # --------------------------------------------------------
+    # PERFORMANCE TIPS
+    # --------------------------------------------------------
+
+    st.subheader("💡 Academic Tips")
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.info(
+            "📖 **Revise Weak Topics**\n\n"
+            "Focus on chapters where your performance "
+            "is consistently lower."
+        )
+
+    with col2:
+        st.info(
+            "✏️ **Practise Questions**\n\n"
+            "Regular practice can help improve "
+            "understanding and accuracy."
+        )
+
+    with col3:
+        st.info(
+            "📅 **Track Progress**\n\n"
+            "Compare your results over time instead "
+            "of focusing on a single test."
+        )
