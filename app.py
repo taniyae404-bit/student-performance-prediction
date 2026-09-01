@@ -70,9 +70,8 @@ elif page == "📚 Academic Performance":
 
     st.subheader("📝 Enter Your Test Results")
 
-col1, col2 = st.columns(2)
-
-with col1:
+    col1, col2 = st.columns(2)
+   with col1:
     test_1 = st.number_input(
         "Test 1 Marks",
         min_value=0,
@@ -387,28 +386,6 @@ elif page == "💚 Well-being":
         )
 
         st.subheader("📊 Well-being Summary")
-
-        col1, col2, col3 = st.columns(3)
-
-        with col1:
-            st.metric(
-                "Mood",
-                mood
-            )
-
-        with col2:
-            st.metric(
-                "Stress Level",
-                f"{stress_level}/10"
-            )
-
-        with col3:
-            st.metric(
-                "Energy Level",
-                f"{energy_level}/10"
-            )
-
-        if stress_level <= 3 and energy_level >= 7:
 elif page == "🧠 Risk Assessment":
 
     st.title("🧠 ML Risk Assessment")
@@ -432,7 +409,6 @@ elif page == "🧠 Risk Assessment":
     col1, col2, col3 = st.columns(3)
 
     with col1:
-
         sex_label = st.selectbox(
             "Gender",
             ["Female", "Male"]
@@ -448,7 +424,6 @@ elif page == "🧠 Risk Assessment":
         )
 
     with col2:
-
         address_label = st.selectbox(
             "Area of Residence",
             ["Urban", "Rural"]
@@ -485,7 +460,6 @@ elif page == "🧠 Risk Assessment":
         )
 
     with col3:
-
         guardian_label = st.selectbox(
             "Guardian",
             ["Mother", "Father", "Other"]
@@ -512,6 +486,8 @@ elif page == "🧠 Risk Assessment":
 
         nursery = nursery_label.lower()
 
+    st.divider()
+
     # --------------------------------------------------
     # ACADEMIC & FAMILY FACTORS
     # --------------------------------------------------
@@ -521,29 +497,35 @@ elif page == "🧠 Risk Assessment":
     col1, col2, col3 = st.columns(3)
 
     with col1:
-
         medu = st.slider(
             "Mother's Education",
-            0, 4, 2
+            0,
+            4,
+            2
         )
 
         fedu = st.slider(
             "Father's Education",
-            0, 4, 2
+            0,
+            4,
+            2
         )
 
         studytime = st.slider(
             "Weekly Study Time",
-            1, 4, 2
+            1,
+            4,
+            2
         )
 
         failures = st.slider(
             "Past Class Failures",
-            0, 4, 0
+            0,
+            4,
+            0
         )
 
     with col2:
-
         mjob = st.selectbox(
             "Mother's Job",
             [
@@ -568,16 +550,19 @@ elif page == "🧠 Risk Assessment":
 
         traveltime = st.slider(
             "Travel Time to School",
-            1, 4, 2
+            1,
+            4,
+            2
         )
 
         famrel = st.slider(
             "Family Relationship Quality",
-            1, 5, 4
+            1,
+            5,
+            4
         )
 
     with col3:
-
         schoolsup = st.selectbox(
             "Extra School Support",
             ["yes", "no"]
@@ -609,7 +594,6 @@ elif page == "🧠 Risk Assessment":
     col1, col2, col3 = st.columns(3)
 
     with col1:
-
         activities = st.selectbox(
             "Extracurricular Activities",
             ["yes", "no"]
@@ -627,33 +611,41 @@ elif page == "🧠 Risk Assessment":
 
         freetime = st.slider(
             "Free Time After School",
-            1, 5, 3
+            1,
+            5,
+            3
         )
 
     with col2:
-
         goout = st.slider(
             "Going Out With Friends",
-            1, 5, 3
+            1,
+            5,
+            3
         )
 
         Dalc = st.slider(
             "Weekday Alcohol Consumption",
-            1, 5, 1
+            1,
+            5,
+            1
         )
 
         Walc = st.slider(
             "Weekend Alcohol Consumption",
-            1, 5, 1
+            1,
+            5,
+            1
         )
 
         health = st.slider(
             "Current Health",
-            1, 5, 3
+            1,
+            5,
+            3
         )
 
     with col3:
-
         absences = st.number_input(
             "School Absences",
             min_value=0,
@@ -661,8 +653,6 @@ elif page == "🧠 Risk Assessment":
             value=4
         )
 
-        st.write("")
-        st.write("")
         st.write("")
 
         st.write(
@@ -676,20 +666,18 @@ elif page == "🧠 Risk Assessment":
     # RISK PREDICTION
     # --------------------------------------------------
 
+    st.subheader("🤖 Academic Risk Prediction")
+
     if st.button(
         "🔍 Assess Academic Risk",
         use_container_width=True
     ):
 
         try:
-
             model = joblib.load(
                 "student_performance_model.pkl"
             )
 
-            # The original ML dataset contains a school field.
-            # Since we removed the school option from the interface,
-            # use a fixed value internally for now.
             school = "GP"
 
             student_data = pd.DataFrame([{
@@ -731,9 +719,9 @@ elif page == "🧠 Risk Assessment":
 
             class_names = model.classes_
 
-            at_risk_index = list(class_names).index(
-                "At Risk"
-            )
+            at_risk_index = list(
+                class_names
+            ).index("At Risk")
 
             risk_probability = probabilities[
                 0,
@@ -743,7 +731,6 @@ elif page == "🧠 Risk Assessment":
             threshold = 0.40
 
             if risk_probability >= threshold:
-
                 status = "Potentially At Risk"
 
                 st.error(
@@ -751,7 +738,6 @@ elif page == "🧠 Risk Assessment":
                 )
 
             else:
-
                 status = "Not At Risk"
 
                 st.success(
@@ -763,21 +749,18 @@ elif page == "🧠 Risk Assessment":
             col1, col2, col3 = st.columns(3)
 
             with col1:
-
                 st.metric(
                     "Risk Probability",
                     f"{risk_probability:.1%}"
                 )
 
             with col2:
-
                 st.metric(
                     "Status",
                     status
                 )
 
             with col3:
-
                 st.metric(
                     "Decision Threshold",
                     f"{threshold:.0%}"
@@ -788,7 +771,6 @@ elif page == "🧠 Risk Assessment":
             )
 
             if risk_probability >= threshold:
-
                 st.warning(
                     "The model estimates that this student "
                     "may benefit from additional academic "
@@ -796,7 +778,6 @@ elif page == "🧠 Risk Assessment":
                 )
 
             else:
-
                 st.info(
                     "The model does not currently flag this "
                     "student as potentially at risk."
@@ -808,7 +789,6 @@ elif page == "🧠 Risk Assessment":
             )
 
         except FileNotFoundError:
-
             st.error(
                 "❌ student_performance_model.pkl was not found. "
                 "Make sure the model file is in the same "
@@ -816,7 +796,6 @@ elif page == "🧠 Risk Assessment":
             )
 
         except Exception as e:
-
             st.error(
                 f"⚠️ Prediction error: {e}"
             )
@@ -849,22 +828,16 @@ elif page == "💬 Ask Student AI":
     ):
 
         if question.strip():
-
             st.info(
                 "The student-support assistant will be "
                 "connected here next."
             )
 
         else:
-
             st.warning(
                 "Please describe what you are struggling with."
             )
 
-
-# --------------------------------------------------
-# FOOTER
-# --------------------------------------------------
 
 st.divider()
 
@@ -873,26 +846,24 @@ st.caption(
     "Machine Learning + Streamlit"
 )
 
+        col1, col2, col3 = st.columns(3)
 
-
-            st.success(
-                "🌟 You seem to be doing well. "
-                "Keep maintaining healthy habits and routines."
+        with col1:
+            st.metric(
+                "Mood",
+                mood
             )
 
-        elif stress_level <= 6:
-
-            st.info(
-                "💙 Your stress level is moderate. "
-                "Remember to take breaks and give yourself time to recharge."
+        with col2:
+            st.metric(
+                "Stress Level",
+                f"{stress_level}/10"
             )
 
-        else:
-
-            st.warning(
-                "💛 Your stress level seems high. "
-                "Consider taking some time to rest, talk to someone you trust, "
-                "and focus on activities that help you feel better."
+        with col3:
+            st.metric(
+                "Energy Level",
+                f"{energy_level}/10"
             )
 
-
+        if stress_level <= 3 and energy_level >= 7:
