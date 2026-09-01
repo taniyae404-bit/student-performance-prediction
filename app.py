@@ -255,6 +255,8 @@ elif page == "📚 Academic Performance":
             assignment +
             test2
         ) / 3
+        st.session_state.average_marks = average_marks
+st.session_state.attendance = attendance
 
         st.subheader("📈 Performance Summary")
 
