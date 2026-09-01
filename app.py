@@ -103,7 +103,10 @@ elif page == "🧠 Risk Assessment":
 
         family_size_label = st.selectbox(
             "Family Size",
-            ["3 or fewer members", "More than 3 members"]
+            [
+                "3 or fewer members",
+                "More than 3 members"
+            ]
         )
 
         family_size = (
@@ -114,7 +117,10 @@ elif page == "🧠 Risk Assessment":
 
         parent_label = st.selectbox(
             "Parents' Living Arrangement",
-            ["Living together", "Living separately"]
+            [
+                "Living together",
+                "Living separately"
+            ]
         )
 
         parent_cohabitation = (
@@ -149,6 +155,8 @@ elif page == "🧠 Risk Assessment":
         )
 
         nursery = nursery_label.lower()
+
+    st.divider()
 
 elif page == "⏱️ Study Tracker":
 
