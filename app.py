@@ -244,7 +244,90 @@ elif page == "😴 Sleep & Routine":
         "Monitor your sleep routine and daily habits."
     )
 
-    st.info("Sleep and routine tracking will be added in the next step.")
+    st.subheader("🌙 Record Your Sleep")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+
+        sleep_hours = st.number_input(
+            "Sleep Hours",
+            min_value=0.0,
+            max_value=24.0,
+            value=7.0,
+            step=0.5
+        )
+
+        sleep_quality = st.selectbox(
+            "Sleep Quality",
+            [
+                "Good",
+                "Average",
+                "Poor"
+            ]
+        )
+
+    with col2:
+
+        wake_up_time = st.time_input(
+            "Wake-up Time"
+        )
+
+        sleep_date = st.date_input(
+            "Sleep Date"
+        )
+
+    st.divider()
+
+    if st.button(
+        "💾 Save Sleep Record",
+        use_container_width=True
+    ):
+
+        st.success(
+            f"Sleep record saved! "
+            f"You slept for {sleep_hours:.1f} hours."
+        )
+
+        st.subheader("📊 Sleep Summary")
+
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            st.metric(
+                "Sleep Hours",
+                f"{sleep_hours:.1f} hrs"
+            )
+
+        with col2:
+            st.metric(
+                "Sleep Quality",
+                sleep_quality
+            )
+
+        with col3:
+            st.metric(
+                "Wake-up Time",
+                wake_up_time.strftime("%I:%M %p")
+            )
+
+        if sleep_hours >= 7:
+            st.info(
+                "🌟 Good sleep routine! "
+                "Maintaining adequate sleep can support your daily routine."
+            )
+
+        elif sleep_hours >= 5:
+            st.warning(
+                "⚠️ Your sleep duration is a little low. "
+                "Try to maintain a more consistent sleep schedule."
+            )
+
+        else:
+            st.error(
+                "🔴 Your sleep duration is quite low. "
+                "Consider prioritising adequate rest."
+            )
 
 
 elif page == "💚 Well-being":
