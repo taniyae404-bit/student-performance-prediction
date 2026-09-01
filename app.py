@@ -75,31 +75,31 @@ col1, col2 = st.columns(2)
 with col1:
     test_1 = st.number_input(
         "Test 1 Marks",
-        min_value=0.0,
-        max_value=100.0,
-        value=0.0
+        min_value=0,
+        max_value=100,
+        value=0
     )
 
     test_2 = st.number_input(
         "Test 2 Marks",
-        min_value=0.0,
-        max_value=100.0,
-        value=0.0
+        min_value=0,
+        max_value=100,
+        value=0
     )
 
 with col2:
     assignment = st.number_input(
         "Assignment Marks",
-        min_value=0.0,
-        max_value=100.0,
-        value=0.0
+        min_value=0,
+        max_value=100,
+        value=0
     )
 
     attendance = st.number_input(
         "Attendance (%)",
-        min_value=0.0,
-        max_value=100.0,
-        value=75.0
+        min_value=0,
+        max_value=100,
+        value=75
     )
 
 if st.button("📊 Analyse Performance", use_container_width=True):
