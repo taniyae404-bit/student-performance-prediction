@@ -1,6 +1,19 @@
 import streamlit as st
 import pandas as pd
 import joblib
+
+
+# ============================================================
+# PAGE CONFIGURATION
+# ============================================================
+
+st.set_page_config(
+    page_title="Student Performance AI",
+    page_icon="🎓",
+    layout="wide"
+)
+
+
 # ============================================================
 # SESSION STATE
 # ============================================================
@@ -31,17 +44,6 @@ if "stress" not in st.session_state:
 
 
 # ============================================================
-# PAGE CONFIGURATION
-# ============================================================
-
-st.set_page_config(
-    page_title="Student Performance AI",
-    page_icon="🎓",
-    layout="wide"
-)
-
-
-# ============================================================
 # SIDEBAR
 # ============================================================
 
@@ -67,7 +69,9 @@ page = st.sidebar.radio(
 st.sidebar.divider()
 
 st.sidebar.caption("Developed by Alishba Ejaz")
-st.sidebar.caption("Developed using Machine Learning & Streamlit")
+st.sidebar.caption(
+    "Developed using Machine Learning & Streamlit"
+)
 
 
 # ============================================================
@@ -85,54 +89,84 @@ if page == "🏠 Dashboard":
     )
 
     st.divider()
-st.subheader("📊 Student Overview")
 
-col1, col2, col3, col4 = st.columns(4)
+    st.subheader("📊 Student Overview")
 
-with col1:
+    col1, col2, col3, col4 = st.columns(4)
 
-    if st.session_state.risk_probability is not None:
+    with col1:
+
+        if st.session_state.risk_probability is not None:
+            st.metric(
+                "Risk Probability",
+                f"{st.session_state.risk_probability:.1%}"
+            )
+        else:
+            st.metric(
+                "Risk Probability",
+                "—"
+            )
+
+    with col2:
+
         st.metric(
-            "Risk Probability",
-            f"{st.session_state.risk_probability:.1%}"
+            "Academic Status",
+            st.session_state.risk_status
         )
+
+    with col3:
+
+        if st.session_state.study_hours is not None:
+            st.metric(
+                "Study Hours",
+                f"{st.session_state.study_hours:.1f} hrs"
+            )
+        else:
+            st.metric(
+                "Study Hours",
+                "—"
+            )
+
+    with col4:
+
+        if st.session_state.sleep_hours is not None:
+            st.metric(
+                "Sleep",
+                f"{st.session_state.sleep_hours:.1f} hrs"
+            )
+        else:
+            st.metric(
+                "Sleep",
+                "—"
+            )
+
+    st.divider()
+
+    st.subheader("📚 Academic Summary")
+
+    if st.session_state.average_marks is not None:
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+
+            st.metric(
+                "Average Marks",
+                f"{st.session_state.average_marks:.1f}"
+            )
+
+        with col2:
+
+            st.metric(
+                "Attendance",
+                f"{st.session_state.attendance:.0f}%"
+            )
+
     else:
-        st.metric(
-            "Risk Probability",
-            "—"
-        )
 
-with col2:
-
-    st.metric(
-        "Academic Status",
-        st.session_state.risk_status
-    )
-
-with col3:
-
-    if st.session_state.study_hours is not None:
-        st.metric(
-            "Study Hours",
-            f"{st.session_state.study_hours:.1f} hrs"
-        )
-    else:
-        st.metric(
-            "Study Hours",
-            "—"
-        )
-
-with col4:
-
-    if st.session_state.sleep_hours is not None:
-        st.metric(
-            "Sleep",
-            f"{st.session_state.sleep_hours:.1f} hrs"
-        )
-    else:
-        st.metric(
-            "Sleep",
-            "—"
+        st.info(
+            "Complete the Academic Performance section "
+            "to see your academic summary here."
         )
 
     st.divider()
@@ -142,6 +176,7 @@ with col4:
     col1, col2, col3 = st.columns(3)
 
     with col1:
+
         st.info(
             "📚 **Academic Performance**\n\n"
             "Enter your test and assignment marks "
@@ -149,6 +184,7 @@ with col4:
         )
 
     with col2:
+
         st.info(
             "🧠 **Risk Assessment**\n\n"
             "Use the machine-learning model to "
@@ -156,6 +192,7 @@ with col4:
         )
 
     with col3:
+
         st.info(
             "💬 **Ask Student AI**\n\n"
             "Describe an academic difficulty and "
@@ -169,6 +206,7 @@ with col4:
     col1, col2 = st.columns(2)
 
     with col1:
+
         st.markdown(
             """
             **📈 Track Progress**
@@ -188,6 +226,7 @@ with col4:
         )
 
     with col2:
+
         st.markdown(
             """
             **🌱 Build Better Habits**
@@ -232,6 +271,7 @@ elif page == "📚 Academic Performance":
     col1, col2, col3 = st.columns(3)
 
     with col1:
+
         test1 = st.number_input(
             "Test 1 Marks",
             min_value=0.0,
@@ -241,6 +281,7 @@ elif page == "📚 Academic Performance":
         )
 
     with col2:
+
         assignment = st.number_input(
             "Assignment Marks",
             min_value=0.0,
@@ -250,6 +291,7 @@ elif page == "📚 Academic Performance":
         )
 
     with col3:
+
         test2 = st.number_input(
             "Test 2 Marks",
             min_value=0.0,
@@ -276,36 +318,42 @@ elif page == "📚 Academic Performance":
             assignment +
             test2
         ) / 3
+
         st.session_state.average_marks = average_marks
-st.session_state.attendance = attendance
+        st.session_state.attendance = attendance
 
         st.subheader("📈 Performance Summary")
 
         col1, col2 = st.columns(2)
 
         with col1:
+
             st.metric(
                 "Average Marks",
                 f"{average_marks:.1f}"
             )
 
         with col2:
+
             st.metric(
                 "Attendance",
                 f"{attendance:.0f}%"
             )
 
         if average_marks >= 75:
+
             st.success(
                 "🌟 Excellent academic performance."
             )
 
         elif average_marks >= 50:
+
             st.info(
                 "👍 Your performance is satisfactory."
             )
 
         else:
+
             st.warning(
                 "⚠️ Your marks may need additional attention."
             )
@@ -342,6 +390,7 @@ elif page == "⏱️ Study Tracker":
         "Save Study Record",
         use_container_width=True
     ):
+
         st.session_state.study_hours = study_hours
 
         st.success(
@@ -350,10 +399,16 @@ elif page == "⏱️ Study Tracker":
         )
 
         if revision == "Yes":
-            st.info("📖 Great job keeping up with revision!")
-        else:
+
             st.info(
-                "💡 Consider setting aside some time for revision."
+                "📖 Great job keeping up with revision!"
+            )
+
+        else:
+
+            st.info(
+                "💡 Consider setting aside some time "
+                "for revision."
             )
 
 
@@ -389,21 +444,29 @@ elif page == "😴 Sleep & Routine":
     if st.button(
         "Save Sleep Record",
         use_container_width=True
-    ): st.session_state.sleep_hours = sleep_hours
+    ):
+
+        st.session_state.sleep_hours = sleep_hours
 
         st.success(
             "✅ Sleep information recorded."
         )
 
-        st.metric(
-            "Sleep",
-            f"{sleep_hours:.1f} hours"
-        )
+        col1, col2 = st.columns(2)
 
-        st.metric(
-            "Sleep Quality",
-            f"{sleep_quality}/5"
-        )
+        with col1:
+
+            st.metric(
+                "Sleep",
+                f"{sleep_hours:.1f} hours"
+            )
+
+        with col2:
+
+            st.metric(
+                "Sleep Quality",
+                f"{sleep_quality}/5"
+            )
 
 
 # ============================================================
@@ -438,20 +501,24 @@ elif page == "💚 Well-being":
     if st.button(
         "Save Check-in",
         use_container_width=True
-    ): st.session_state.mood = mood
-st.session_state.stress = stress
+    ):
+
+        st.session_state.mood = mood
+        st.session_state.stress = stress
 
         st.success(
             "💚 Your check-in has been recorded."
         )
 
         if stress >= 4:
+
             st.warning(
                 "You may benefit from taking a break "
                 "and talking to someone you trust."
             )
 
         else:
+
             st.info(
                 "Keep taking care of yourself and "
                 "maintain a healthy routine."
@@ -472,8 +539,9 @@ elif page == "🧠 Risk Assessment":
     )
 
     st.info(
-        "This prediction is an early-warning indicator and should "
-        "not replace teacher, counselor or professional judgment."
+        "This prediction is an early-warning indicator and "
+        "should not replace teacher, counselor or professional "
+        "judgment."
     )
 
     # --------------------------------------------------------
@@ -757,8 +825,6 @@ elif page == "🧠 Risk Assessment":
             value=4
         )
 
-        st.write("")
-
         st.info(
             "💡 These inputs correspond to factors "
             "used by the trained ML model."
@@ -783,74 +849,44 @@ elif page == "🧠 Risk Assessment":
                 "student_performance_model.pkl"
             )
 
-            # The current trained model expects the
-            # original dataset's school feature.
-            # School is NOT shown to the student.
+            # School is required by the current trained model.
+            # It is intentionally hidden from the student.
             school = "GP"
 
-            student_data = pd.DataFrame([{
-
-                "school": school,
-
-                "sex": sex,
-
-                "age": age,
-
-                "address": address,
-
-                "famsize": family_size,
-
-                "Pstatus": parent_cohabitation,
-
-                "Medu": medu,
-
-                "Fedu": fedu,
-
-                "Mjob": mjob,
-
-                "Fjob": fjob,
-
-                "reason": reason,
-
-                "guardian": guardian,
-
-                "traveltime": traveltime,
-
-                "studytime": studytime,
-
-                "failures": failures,
-
-                "schoolsup": schoolsup,
-
-                "famsup": famsup,
-
-                "paid": paid,
-
-                "activities": activities,
-
-                "nursery": nursery,
-
-                "higher": higher,
-
-                "internet": internet,
-
-                "romantic": romantic,
-
-                "famrel": famrel,
-
-                "freetime": freetime,
-
-                "goout": goout,
-
-                "Dalc": Dalc,
-
-                "Walc": Walc,
-
-                "health": health,
-
-                "absences": absences
-
-            }])
+            student_data = pd.DataFrame(
+                [{
+                    "school": school,
+                    "sex": sex,
+                    "age": age,
+                    "address": address,
+                    "famsize": family_size,
+                    "Pstatus": parent_cohabitation,
+                    "Medu": medu,
+                    "Fedu": fedu,
+                    "Mjob": mjob,
+                    "Fjob": fjob,
+                    "reason": reason,
+                    "guardian": guardian,
+                    "traveltime": traveltime,
+                    "studytime": studytime,
+                    "failures": failures,
+                    "schoolsup": schoolsup,
+                    "famsup": famsup,
+                    "paid": paid,
+                    "activities": activities,
+                    "nursery": nursery,
+                    "higher": higher,
+                    "internet": internet,
+                    "romantic": romantic,
+                    "famrel": famrel,
+                    "freetime": freetime,
+                    "goout": goout,
+                    "Dalc": Dalc,
+                    "Walc": Walc,
+                    "health": health,
+                    "absences": absences
+                }]
+            )
 
             probabilities = model.predict_proba(
                 student_data
@@ -883,8 +919,14 @@ elif page == "🧠 Risk Assessment":
 
                 st.success(
                     f"✅ {status}"
-                ) st.session_state.risk_probability = risk_probability
-st.session_state.risk_status = status
+                )
+
+            # Save result for Dashboard
+            st.session_state.risk_probability = (
+                risk_probability
+            )
+
+            st.session_state.risk_status = status
 
             st.subheader("📊 Prediction Results")
 
@@ -988,8 +1030,8 @@ elif page == "💬 Ask Student AI":
     question = st.text_area(
         "Describe your problem",
         placeholder=(
-            "Example: I am studying regularly but my marks "
-            "are still not improving."
+            "Example: I am studying regularly but my "
+            "marks are still not improving."
         ),
         height=150
     )
@@ -1182,9 +1224,15 @@ elif page == "💬 Ask Student AI":
             st.success(
                 "🌱 Small, consistent improvements can make a big difference."
             )
+
+
+# ============================================================
+# FOOTER
+# ============================================================
+
 st.divider()
 
 st.caption(
     "Student Performance Early-Warning System | "
     "Machine Learning + Streamlit"
-)
+    )
