@@ -438,7 +438,7 @@ elif page == "💚 Well-being":
     if st.button(
         "Save Check-in",
         use_container_width=True
-    )): st.session_state.mood = mood
+    ): st.session_state.mood = mood
 st.session_state.stress = stress
 
         st.success(
