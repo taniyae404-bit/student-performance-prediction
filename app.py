@@ -85,33 +85,54 @@ if page == "🏠 Dashboard":
     )
 
     st.divider()
+st.subheader("📊 Student Overview")
 
-    st.subheader("📊 Student Overview")
+col1, col2, col3, col4 = st.columns(4)
 
-    col1, col2, col3, col4 = st.columns(4)
+with col1:
 
-    with col1:
+    if st.session_state.risk_probability is not None:
         st.metric(
             "Risk Probability",
-            "Not Assessed"
+            f"{st.session_state.risk_probability:.1%}"
         )
-
-    with col2:
+    else:
         st.metric(
-            "Academic Status",
-            "Not Assessed"
+            "Risk Probability",
+            "—"
         )
 
-    with col3:
+with col2:
+
+    st.metric(
+        "Academic Status",
+        st.session_state.risk_status
+    )
+
+with col3:
+
+    if st.session_state.study_hours is not None:
         st.metric(
             "Study Hours",
-            "Not Recorded"
+            f"{st.session_state.study_hours:.1f} hrs"
+        )
+    else:
+        st.metric(
+            "Study Hours",
+            "—"
         )
 
-    with col4:
+with col4:
+
+    if st.session_state.sleep_hours is not None:
         st.metric(
             "Sleep",
-            "Not Recorded"
+            f"{st.session_state.sleep_hours:.1f} hrs"
+        )
+    else:
+        st.metric(
+            "Sleep",
+            "—"
         )
 
     st.divider()
@@ -321,6 +342,7 @@ elif page == "⏱️ Study Tracker":
         "Save Study Record",
         use_container_width=True
     ):
+        st.session_state.study_hours = study_hours
 
         st.success(
             f"✅ Study record saved: "
@@ -367,7 +389,7 @@ elif page == "😴 Sleep & Routine":
     if st.button(
         "Save Sleep Record",
         use_container_width=True
-    ):
+    ): st.session_state.sleep_hours = sleep_hours
 
         st.success(
             "✅ Sleep information recorded."
@@ -416,7 +438,8 @@ elif page == "💚 Well-being":
     if st.button(
         "Save Check-in",
         use_container_width=True
-    ):
+    )): st.session_state.mood = mood
+st.session_state.stress = stress
 
         st.success(
             "💚 Your check-in has been recorded."
@@ -860,7 +883,8 @@ elif page == "🧠 Risk Assessment":
 
                 st.success(
                     f"✅ {status}"
-                )
+                ) st.session_state.risk_probability = risk_probability
+st.session_state.risk_status = status
 
             st.subheader("📊 Prediction Results")
 
