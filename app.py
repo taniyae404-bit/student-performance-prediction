@@ -53,8 +53,8 @@ if page == "🏠 Dashboard":
 
     st.write(
         "Welcome! This platform helps students monitor "
-        "their academic progress and identify potential "
-        "academic risk early."
+        "their academic progress, study habits and well-being "
+        "while identifying potential academic risk early."
     )
 
     st.divider()
@@ -66,7 +66,7 @@ if page == "🏠 Dashboard":
     with col1:
         st.metric(
             "Risk Probability",
-            "—"
+            "Not Assessed"
         )
 
     with col2:
@@ -78,13 +78,13 @@ if page == "🏠 Dashboard":
     with col3:
         st.metric(
             "Study Hours",
-            "—"
+            "Not Recorded"
         )
 
     with col4:
         st.metric(
             "Sleep",
-            "—"
+            "Not Recorded"
         )
 
     st.divider()
@@ -96,26 +96,73 @@ if page == "🏠 Dashboard":
     with col1:
         st.info(
             "📚 **Academic Performance**\n\n"
-            "Record and review your academic results."
+            "Enter your test and assignment marks "
+            "and review your academic performance."
         )
 
     with col2:
         st.info(
-            "⏱️ **Study Tracker**\n\n"
-            "Track your study and revision routine."
+            "🧠 **Risk Assessment**\n\n"
+            "Use the machine-learning model to "
+            "estimate your potential academic risk."
         )
 
     with col3:
         st.info(
-            "🧠 **Risk Assessment**\n\n"
-            "Use the ML model to assess academic risk."
+            "💬 **Ask Student AI**\n\n"
+            "Describe an academic difficulty and "
+            "receive practical guidance."
+        )
+
+    st.divider()
+
+    st.subheader("📌 How This App Helps")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.markdown(
+            """
+            **📈 Track Progress**
+
+            Keep an eye on your marks, attendance,
+            study routine and other important factors.
+            """
+        )
+
+        st.markdown(
+            """
+            **🧠 Identify Potential Risk**
+
+            The ML model provides an early-warning
+            indication based on the information you enter.
+            """
+        )
+
+    with col2:
+        st.markdown(
+            """
+            **🌱 Build Better Habits**
+
+            Monitor sleep, study habits and well-being
+            to understand factors that may affect your studies.
+            """
+        )
+
+        st.markdown(
+            """
+            **💬 Get Guidance**
+
+            Use Student AI for simple suggestions when
+            you are facing academic difficulties.
+            """
         )
 
     st.divider()
 
     st.success(
-        "💡 Regular tracking can help you identify "
-        "areas that may need attention early."
+        "💡 Regularly reviewing your academic progress "
+        "can help you identify areas that may need attention."
     )
 
 
