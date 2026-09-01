@@ -526,6 +526,7 @@ with col3:
     )
 
     nursery = nursery_label.lower()
+    
     st.subheader("🎓 Academic & Family Factors")
 
     col1, col2, col3 = st.columns(3)
