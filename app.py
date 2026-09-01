@@ -338,8 +338,97 @@ elif page == "💚 Well-being":
         "Record simple weekly check-ins about your mood and stress levels."
     )
 
-    st.info("Well-being tracking will be added in the next step.")
+    st.subheader("🌱 Weekly Well-being Check-in")
 
+    col1, col2 = st.columns(2)
+
+    with col1:
+
+        mood = st.selectbox(
+            "How is your mood today?",
+            [
+                "😊 Very Good",
+                "🙂 Good",
+                "😐 Okay",
+                "🙁 Low",
+                "😔 Very Low"
+            ]
+        )
+
+        stress_level = st.slider(
+            "Stress Level",
+            min_value=1,
+            max_value=10,
+            value=5
+        )
+
+    with col2:
+
+        energy_level = st.slider(
+            "Energy Level",
+            min_value=1,
+            max_value=10,
+            value=5
+        )
+
+        checkin_date = st.date_input(
+            "Check-in Date"
+        )
+
+    st.divider()
+
+    if st.button(
+        "💚 Save Check-in",
+        use_container_width=True
+    ):
+
+        st.success(
+            "Your well-being check-in has been recorded."
+        )
+
+        st.subheader("📊 Well-being Summary")
+
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            st.metric(
+                "Mood",
+                mood
+            )
+
+        with col2:
+            st.metric(
+                "Stress Level",
+                f"{stress_level}/10"
+            )
+
+        with col3:
+            st.metric(
+                "Energy Level",
+                f"{energy_level}/10"
+            )
+
+        if stress_level <= 3 and energy_level >= 7:
+
+            st.success(
+                "🌟 You seem to be doing well. "
+                "Keep maintaining healthy habits and routines."
+            )
+
+        elif stress_level <= 6:
+
+            st.info(
+                "💙 Your stress level is moderate. "
+                "Remember to take breaks and give yourself time to recharge."
+            )
+
+        else:
+
+            st.warning(
+                "💛 Your stress level seems high. "
+                "Consider taking some time to rest, talk to someone you trust, "
+                "and focus on activities that help you feel better."
+            )
 
 elif page == "🧠 Risk Assessment":
 
