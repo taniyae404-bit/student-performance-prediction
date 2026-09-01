@@ -147,8 +147,94 @@ elif page == "⏱️ Study Tracker":
         "Keep track of your study hours and revision routine."
     )
 
-    st.info("Study tracking will be added in the next step.")
+    st.subheader("📚 Record Your Study Session")
 
+    col1, col2 = st.columns(2)
+
+    with col1:
+
+        study_hours = st.number_input(
+            "Study Hours",
+            min_value=0.0,
+            max_value=24.0,
+            value=2.0,
+            step=0.5
+        )
+
+        subject = st.selectbox(
+            "Subject",
+            [
+                "Mathematics",
+                "Science",
+                "English",
+                "Computer Science",
+                "Social Science",
+                "Other"
+            ]
+        )
+
+    with col2:
+
+        revision = st.selectbox(
+            "Did you revise today?",
+            [
+                "Yes",
+                "No"
+            ]
+        )
+
+        study_date = st.date_input(
+            "Study Date"
+        )
+
+    st.divider()
+
+    if st.button(
+        "📊 Save Study Session",
+        use_container_width=True
+    ):
+
+        st.success(
+            f"Study session recorded! "
+            f"You studied {study_hours} hours of {subject}."
+        )
+
+        st.subheader("📈 Study Summary")
+
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            st.metric(
+                "Study Hours",
+                f"{study_hours:.1f} hrs"
+            )
+
+        with col2:
+            st.metric(
+                "Subject",
+                subject
+            )
+
+        with col3:
+            st.metric(
+                "Revision",
+                revision
+            )
+
+        if study_hours >= 4:
+            st.info(
+                "🌟 Great study effort! Keep maintaining a consistent routine."
+            )
+
+        elif study_hours >= 2:
+            st.info(
+                "👍 Good progress! Try to maintain your study routine regularly."
+            )
+
+        else:
+            st.warning(
+                "📚 Consider increasing your study time gradually."
+            )
 
 elif page == "😴 Sleep & Routine":
 
