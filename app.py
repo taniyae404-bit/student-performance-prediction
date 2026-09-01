@@ -10,7 +10,156 @@ import joblib
 st.set_page_config(
     page_title="Student Performance AI",
     page_icon="🎓",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+
+# ============================================================
+# CUSTOM DESIGN
+# ============================================================
+
+st.markdown(
+    """
+    <style>
+
+    /* Main background */
+    .stApp {
+        background: linear-gradient(
+            135deg,
+            #f8faff 0%,
+            #eef4ff 50%,
+            #f8f5ff 100%
+        );
+    }
+
+    /* Main content */
+    .block-container {
+        padding-top: 2rem;
+        padding-bottom: 3rem;
+        max-width: 1200px;
+    }
+
+    /* Sidebar */
+    [data-testid="stSidebar"] {
+        background: linear-gradient(
+            180deg,
+            #172554 0%,
+            #312e81 100%
+        );
+    }
+
+    [data-testid="stSidebar"] * {
+        color: white !important;
+    }
+
+    /* Titles */
+    h1 {
+        font-weight: 800 !important;
+        letter-spacing: -0.5px;
+    }
+
+    h2, h3 {
+        font-weight: 700 !important;
+    }
+
+    /* Metric cards */
+    [data-testid="stMetric"] {
+        background: rgba(255, 255, 255, 0.88);
+        border: 1px solid rgba(99, 102, 241, 0.12);
+        border-radius: 18px;
+        padding: 18px;
+        box-shadow: 0 8px 24px rgba(30, 41, 59, 0.07);
+    }
+
+    [data-testid="stMetricLabel"] {
+        font-weight: 600;
+    }
+
+    /* Buttons */
+    .stButton > button {
+        border-radius: 12px;
+        min-height: 48px;
+        font-weight: 700;
+        border: none;
+        background: linear-gradient(
+            90deg,
+            #4f46e5,
+            #7c3aed
+        );
+        color: white;
+        box-shadow: 0 6px 16px rgba(79, 70, 229, 0.20);
+        transition: all 0.2s ease;
+    }
+
+    .stButton > button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 8px 20px rgba(79, 70, 229, 0.30);
+    }
+
+    /* Info / success / warning boxes */
+    .stAlert {
+        border-radius: 14px;
+    }
+
+    /* Inputs */
+    div[data-baseweb="input"] > div,
+    div[data-baseweb="select"] > div {
+        border-radius: 10px;
+    }
+
+    /* Section cards */
+    .section-card {
+        background: rgba(255, 255, 255, 0.86);
+        border-radius: 20px;
+        padding: 24px;
+        margin: 12px 0 22px 0;
+        border: 1px solid rgba(99, 102, 241, 0.10);
+        box-shadow: 0 8px 25px rgba(30, 41, 59, 0.06);
+    }
+
+    .hero-card {
+        background: linear-gradient(
+            135deg,
+            #312e81,
+            #4f46e5,
+            #7c3aed
+        );
+        color: white;
+        padding: 32px;
+        border-radius: 24px;
+        margin-bottom: 25px;
+        box-shadow: 0 12px 30px rgba(49, 46, 129, 0.25);
+    }
+
+    .hero-card h1,
+    .hero-card p {
+        color: white !important;
+    }
+
+    .small-card {
+        background: white;
+        border-radius: 18px;
+        padding: 20px;
+        height: 100%;
+        border: 1px solid rgba(99, 102, 241, 0.10);
+        box-shadow: 0 7px 20px rgba(30, 41, 59, 0.06);
+    }
+
+    .small-card h3 {
+        margin-top: 0;
+    }
+
+    .footer {
+        text-align: center;
+        padding: 25px 0 5px 0;
+        color: #64748b;
+        font-size: 0.9rem;
+    }
+
+    </style>
+    """,
+    unsafe_allow_html=True
 )
 
 
@@ -18,39 +167,40 @@ st.set_page_config(
 # SESSION STATE
 # ============================================================
 
-if "average_marks" not in st.session_state:
-    st.session_state.average_marks = None
+defaults = {
+    "average_marks": None,
+    "attendance": None,
+    "risk_probability": None,
+    "risk_status": "Not Assessed",
+    "study_hours": None,
+    "sleep_hours": None,
+    "mood": None,
+    "stress": None
+}
 
-if "attendance" not in st.session_state:
-    st.session_state.attendance = None
-
-if "risk_probability" not in st.session_state:
-    st.session_state.risk_probability = None
-
-if "risk_status" not in st.session_state:
-    st.session_state.risk_status = "Not Assessed"
-
-if "study_hours" not in st.session_state:
-    st.session_state.study_hours = None
-
-if "sleep_hours" not in st.session_state:
-    st.session_state.sleep_hours = None
-
-if "mood" not in st.session_state:
-    st.session_state.mood = None
-
-if "stress" not in st.session_state:
-    st.session_state.stress = None
+for key, value in defaults.items():
+    if key not in st.session_state:
+        st.session_state[key] = value
 
 
 # ============================================================
 # SIDEBAR
 # ============================================================
 
-st.sidebar.title("🎓 Student Performance AI")
-
-st.sidebar.caption(
-    "Machine Learning Early-Warning System"
+st.sidebar.markdown(
+    """
+    <div style="
+        text-align:center;
+        padding:10px 0 20px 0;
+    ">
+        <div style="font-size:42px;">🎓</div>
+        <h2 style="margin:0;">Student Performance AI</h2>
+        <p style="opacity:0.8;">
+            Early-Warning & Student Support
+        </p>
+    </div>
+    """,
+    unsafe_allow_html=True
 )
 
 page = st.sidebar.radio(
@@ -68,9 +218,21 @@ page = st.sidebar.radio(
 
 st.sidebar.divider()
 
-st.sidebar.caption("Developed by Alishba Ejaz")
-st.sidebar.caption(
-    "Developed using Machine Learning & Streamlit"
+st.sidebar.markdown(
+    """
+    <div style="
+        text-align:center;
+        opacity:0.85;
+        padding-top:10px;
+    ">
+        <p>Developed by</p>
+        <strong>Alishba Ejaz</strong>
+        <p style="font-size:12px;">
+            Machine Learning + Streamlit
+        </p>
+    </div>
+    """,
+    unsafe_allow_html=True
 )
 
 
@@ -80,15 +242,19 @@ st.sidebar.caption(
 
 if page == "🏠 Dashboard":
 
-    st.title("🎓 Student Performance AI")
-
-    st.write(
-        "Welcome! This platform helps students monitor "
-        "their academic progress, study habits and well-being "
-        "while identifying potential academic risk early."
+    st.markdown(
+        """
+        <div class="hero-card">
+            <h1>🎓 Student Performance AI</h1>
+            <p>
+                A smart early-warning platform designed to help
+                students understand their academic progress,
+                study habits and well-being.
+            </p>
+        </div>
+        """,
+        unsafe_allow_html=True
     )
-
-    st.divider()
 
     st.subheader("📊 Student Overview")
 
@@ -152,7 +318,7 @@ if page == "🏠 Dashboard":
 
             st.metric(
                 "Average Marks",
-                f"{st.session_state.average_marks:.1f}"
+                f"{st.session_state.average_marks:.1f}/100"
             )
 
         with col2:
@@ -165,7 +331,7 @@ if page == "🏠 Dashboard":
     else:
 
         st.info(
-            "Complete the Academic Performance section "
+            "📌 Complete the Academic Performance section "
             "to see your academic summary here."
         )
 
@@ -177,31 +343,52 @@ if page == "🏠 Dashboard":
 
     with col1:
 
-        st.info(
-            "📚 **Academic Performance**\n\n"
-            "Enter your test and assignment marks "
-            "and review your academic performance."
+        st.markdown(
+            """
+            <div class="small-card">
+                <h3>📚 Academic Performance</h3>
+                <p>
+                    Record your marks and attendance
+                    and review your academic progress.
+                </p>
+            </div>
+            """,
+            unsafe_allow_html=True
         )
 
     with col2:
 
-        st.info(
-            "🧠 **Risk Assessment**\n\n"
-            "Use the machine-learning model to "
-            "estimate your potential academic risk."
+        st.markdown(
+            """
+            <div class="small-card">
+                <h3>🧠 Risk Assessment</h3>
+                <p>
+                    Use the machine-learning model to
+                    identify potential academic risk.
+                </p>
+            </div>
+            """,
+            unsafe_allow_html=True
         )
 
     with col3:
 
-        st.info(
-            "💬 **Ask Student AI**\n\n"
-            "Describe an academic difficulty and "
-            "receive practical guidance."
+        st.markdown(
+            """
+            <div class="small-card">
+                <h3>💬 Ask Student AI</h3>
+                <p>
+                    Describe an academic difficulty and
+                    receive practical guidance.
+                </p>
+            </div>
+            """,
+            unsafe_allow_html=True
         )
 
     st.divider()
 
-    st.subheader("📌 How This App Helps")
+    st.subheader("🌱 How This App Helps")
 
     col1, col2 = st.columns(2)
 
@@ -209,47 +396,49 @@ if page == "🏠 Dashboard":
 
         st.markdown(
             """
-            **📈 Track Progress**
+            <div class="small-card">
+
+            ### 📈 Track Progress
 
             Keep an eye on your marks, attendance,
             study routine and other important factors.
-            """
-        )
 
-        st.markdown(
-            """
-            **🧠 Identify Potential Risk**
+            ### 🧠 Identify Potential Risk
 
             The ML model provides an early-warning
             indication based on the information you enter.
-            """
+
+            </div>
+            """,
+            unsafe_allow_html=True
         )
 
     with col2:
 
         st.markdown(
             """
-            **🌱 Build Better Habits**
+            <div class="small-card">
+
+            ### 🌱 Build Better Habits
 
             Monitor sleep, study habits and well-being
             to understand factors that may affect your studies.
-            """
-        )
 
-        st.markdown(
-            """
-            **💬 Get Guidance**
+            ### 💬 Get Guidance
 
             Use Student AI for simple suggestions when
             you are facing academic difficulties.
-            """
+
+            </div>
+            """,
+            unsafe_allow_html=True
         )
 
     st.divider()
 
     st.success(
         "💡 Regularly reviewing your academic progress "
-        "can help you identify areas that may need attention."
+        "can help identify areas that may need attention."
     )
 
 
@@ -262,9 +451,11 @@ elif page == "📚 Academic Performance":
     st.title("📚 Academic Performance")
 
     st.write(
-        "Track your test results and monitor your "
-        "academic progress."
+        "Record your marks and attendance to understand "
+        "your current academic performance."
     )
+
+    st.divider()
 
     st.subheader("📝 Test Performance")
 
@@ -274,39 +465,41 @@ elif page == "📚 Academic Performance":
 
         test1 = st.number_input(
             "Test 1 Marks",
-            min_value=0.0,
-            max_value=100.0,
-            value=0.0,
-            step=1.0
+            min_value=0,
+            max_value=100,
+            value=0,
+            step=1
         )
 
     with col2:
 
         assignment = st.number_input(
             "Assignment Marks",
-            min_value=0.0,
-            max_value=100.0,
-            value=0.0,
-            step=1.0
+            min_value=0,
+            max_value=100,
+            value=0,
+            step=1
         )
 
     with col3:
 
         test2 = st.number_input(
             "Test 2 Marks",
-            min_value=0.0,
-            max_value=100.0,
-            value=0.0,
-            step=1.0
+            min_value=0,
+            max_value=100,
+            value=0,
+            step=1
         )
 
     attendance = st.number_input(
         "Attendance Percentage",
-        min_value=0.0,
-        max_value=100.0,
-        value=0.0,
-        step=1.0
+        min_value=0,
+        max_value=100,
+        value=0,
+        step=1
     )
+
+    st.divider()
 
     if st.button(
         "📊 Analyze Performance",
@@ -330,7 +523,7 @@ elif page == "📚 Academic Performance":
 
             st.metric(
                 "Average Marks",
-                f"{average_marks:.1f}"
+                f"{average_marks:.1f}/100"
             )
 
         with col2:
@@ -343,13 +536,14 @@ elif page == "📚 Academic Performance":
         if average_marks >= 75:
 
             st.success(
-                "🌟 Excellent academic performance."
+                "🌟 Excellent academic performance!"
             )
 
         elif average_marks >= 50:
 
             st.info(
-                "👍 Your performance is satisfactory."
+                "👍 Your performance is satisfactory. "
+                "Keep working consistently."
             )
 
         else:
@@ -368,26 +562,36 @@ elif page == "⏱️ Study Tracker":
     st.title("⏱️ Study Tracker")
 
     st.write(
-        "Keep track of your study hours and revision routine."
+        "Keep track of your daily study hours and revision routine."
     )
+
+    st.divider()
 
     st.subheader("📚 Today's Study")
 
-    study_hours = st.number_input(
-        "Study Hours",
-        min_value=0.0,
-        max_value=24.0,
-        value=0.0,
-        step=0.5
-    )
+    col1, col2 = st.columns(2)
 
-    revision = st.selectbox(
-        "Did you revise today?",
-        ["Yes", "No"]
-    )
+    with col1:
+
+        study_hours = st.number_input(
+            "Study Hours",
+            min_value=0.0,
+            max_value=24.0,
+            value=0.0,
+            step=0.5
+        )
+
+    with col2:
+
+        revision = st.selectbox(
+            "Did you revise today?",
+            ["Yes", "No"]
+        )
+
+    st.divider()
 
     if st.button(
-        "Save Study Record",
+        "💾 Save Study Record",
         use_container_width=True
     ):
 
@@ -401,13 +605,13 @@ elif page == "⏱️ Study Tracker":
         if revision == "Yes":
 
             st.info(
-                "📖 Great job keeping up with revision!"
+                "📖 Great job! You kept up with revision today."
             )
 
         else:
 
             st.info(
-                "💡 Consider setting aside some time "
+                "💡 Consider setting aside a little time "
                 "for revision."
             )
 
@@ -421,28 +625,40 @@ elif page == "😴 Sleep & Routine":
     st.title("😴 Sleep & Routine")
 
     st.write(
-        "Monitor your sleep routine and daily habits."
+        "Monitor your sleep routine and understand "
+        "how consistently you are resting."
     )
+
+    st.divider()
 
     st.subheader("🌙 Sleep Information")
 
-    sleep_hours = st.number_input(
-        "Hours of Sleep",
-        min_value=0.0,
-        max_value=24.0,
-        value=7.0,
-        step=0.5
-    )
+    col1, col2 = st.columns(2)
 
-    sleep_quality = st.slider(
-        "Sleep Quality",
-        min_value=1,
-        max_value=5,
-        value=3
-    )
+    with col1:
+
+        sleep_hours = st.number_input(
+            "Hours of Sleep",
+            min_value=0.0,
+            max_value=24.0,
+            value=7.0,
+            step=0.5
+        )
+
+    with col2:
+
+        sleep_quality = st.slider(
+            "Sleep Quality",
+            min_value=1,
+            max_value=5,
+            value=3,
+            help="1 = Very poor, 5 = Excellent"
+        )
+
+    st.divider()
 
     if st.button(
-        "Save Sleep Record",
+        "💾 Save Sleep Record",
         use_container_width=True
     ):
 
@@ -468,6 +684,25 @@ elif page == "😴 Sleep & Routine":
                 f"{sleep_quality}/5"
             )
 
+        if sleep_hours < 6:
+
+            st.warning(
+                "🌙 Your recorded sleep is quite low. "
+                "Try to maintain a more consistent sleep routine."
+            )
+
+        elif sleep_hours >= 7:
+
+            st.success(
+                "🌟 Your recorded sleep duration looks healthy."
+            )
+
+        else:
+
+            st.info(
+                "💡 Try to maintain a consistent sleep schedule."
+            )
+
 
 # ============================================================
 # WELL-BEING
@@ -478,28 +713,40 @@ elif page == "💚 Well-being":
     st.title("💚 Well-being")
 
     st.write(
-        "Record simple weekly check-ins about your "
-        "mood and stress levels."
+        "Use a simple check-in to reflect on your mood "
+        "and current stress level."
     )
+
+    st.divider()
 
     st.subheader("🌱 Weekly Check-in")
 
-    mood = st.slider(
-        "How are you feeling today?",
-        min_value=1,
-        max_value=5,
-        value=3
-    )
+    col1, col2 = st.columns(2)
 
-    stress = st.slider(
-        "Current Stress Level",
-        min_value=1,
-        max_value=5,
-        value=3
-    )
+    with col1:
+
+        mood = st.slider(
+            "How are you feeling today?",
+            min_value=1,
+            max_value=5,
+            value=3,
+            help="1 = Very low, 5 = Very good"
+        )
+
+    with col2:
+
+        stress = st.slider(
+            "Current Stress Level",
+            min_value=1,
+            max_value=5,
+            value=3,
+            help="1 = Very low, 5 = Very high"
+        )
+
+    st.divider()
 
     if st.button(
-        "Save Check-in",
+        "💚 Save Check-in",
         use_container_width=True
     ):
 
@@ -510,18 +757,35 @@ elif page == "💚 Well-being":
             "💚 Your check-in has been recorded."
         )
 
+        col1, col2 = st.columns(2)
+
+        with col1:
+
+            st.metric(
+                "Mood",
+                f"{mood}/5"
+            )
+
+        with col2:
+
+            st.metric(
+                "Stress",
+                f"{stress}/5"
+            )
+
         if stress >= 4:
 
             st.warning(
-                "You may benefit from taking a break "
-                "and talking to someone you trust."
+                "🌿 Your stress level is high. "
+                "Consider taking a break and talking "
+                "to someone you trust."
             )
 
         else:
 
             st.info(
-                "Keep taking care of yourself and "
-                "maintain a healthy routine."
+                "🌱 Keep taking care of yourself and "
+                "maintain a balanced routine."
             )
 
 
@@ -534,14 +798,14 @@ elif page == "🧠 Risk Assessment":
     st.title("🧠 ML Risk Assessment")
 
     st.write(
-        "Enter your academic, family, social and lifestyle "
-        "information to estimate your potential academic risk."
+        "Enter academic, family, social and lifestyle "
+        "information to estimate potential academic risk."
     )
 
     st.info(
-        "This prediction is an early-warning indicator and "
-        "should not replace teacher, counselor or professional "
-        "judgment."
+        "ℹ️ This prediction is an early-warning indicator. "
+        "It should not replace teacher, counselor or "
+        "professional judgment."
     )
 
     # --------------------------------------------------------
@@ -624,7 +888,13 @@ elif page == "🧠 Risk Assessment":
             ]
         )
 
-        guardian = guardian_label.lower()
+        guardian_mapping = {
+            "Mother": "mother",
+            "Father": "father",
+            "Other": "other"
+        }
+
+        guardian = guardian_mapping[guardian_label]
 
         reason_label = st.selectbox(
             "Main Reason for Choosing School",
@@ -668,14 +938,16 @@ elif page == "🧠 Risk Assessment":
             "Mother's Education",
             0,
             4,
-            2
+            2,
+            help="0 = No formal education, 4 = Higher education"
         )
 
         fedu = st.slider(
             "Father's Education",
             0,
             4,
-            2
+            2,
+            help="0 = No formal education, 4 = Higher education"
         )
 
         studytime = st.slider(
@@ -755,7 +1027,7 @@ elif page == "🧠 Risk Assessment":
     st.divider()
 
     # --------------------------------------------------------
-    # SOCIAL & LIFESTYLE FACTORS
+    # SOCIAL & LIFESTYLE
     # --------------------------------------------------------
 
     st.subheader("🌱 Social & Lifestyle Factors")
@@ -822,12 +1094,13 @@ elif page == "🧠 Risk Assessment":
             "School Absences",
             min_value=0,
             max_value=100,
-            value=4
+            value=4,
+            step=1
         )
 
         st.info(
-            "💡 These inputs correspond to factors "
-            "used by the trained ML model."
+            "💡 The information above corresponds "
+            "to factors used by the trained ML model."
         )
 
     st.divider()
@@ -849,133 +1122,209 @@ elif page == "🧠 Risk Assessment":
                 "student_performance_model.pkl"
             )
 
-            # School is required by the current trained model.
-            # It is intentionally hidden from the student.
-            school = "GP"
+            # ------------------------------------------------
+            # IMPORTANT:
+            # School is NOT displayed to the student.
+            #
+            # The original model may require the "school"
+            # feature because it was trained with that feature.
+            #
+            # We detect whether the saved model expects it.
+            # ------------------------------------------------
 
-            student_data = pd.DataFrame(
-                [{
-                    "school": school,
-                    "sex": sex,
-                    "age": age,
-                    "address": address,
-                    "famsize": family_size,
-                    "Pstatus": parent_cohabitation,
-                    "Medu": medu,
-                    "Fedu": fedu,
-                    "Mjob": mjob,
-                    "Fjob": fjob,
-                    "reason": reason,
-                    "guardian": guardian,
-                    "traveltime": traveltime,
-                    "studytime": studytime,
-                    "failures": failures,
-                    "schoolsup": schoolsup,
-                    "famsup": famsup,
-                    "paid": paid,
-                    "activities": activities,
-                    "nursery": nursery,
-                    "higher": higher,
-                    "internet": internet,
-                    "romantic": romantic,
-                    "famrel": famrel,
-                    "freetime": freetime,
-                    "goout": goout,
-                    "Dalc": Dalc,
-                    "Walc": Walc,
-                    "health": health,
-                    "absences": absences
-                }]
+            student_values = {
+                "sex": sex,
+                "age": age,
+                "address": address,
+                "famsize": family_size,
+                "Pstatus": parent_cohabitation,
+                "Medu": medu,
+                "Fedu": fedu,
+                "Mjob": mjob,
+                "Fjob": fjob,
+                "reason": reason,
+                "guardian": guardian,
+                "traveltime": traveltime,
+                "studytime": studytime,
+                "failures": failures,
+                "schoolsup": schoolsup,
+                "famsup": famsup,
+                "paid": paid,
+                "activities": activities,
+                "nursery": nursery,
+                "higher": higher,
+                "internet": internet,
+                "romantic": romantic,
+                "famrel": famrel,
+                "freetime": freetime,
+                "goout": goout,
+                "Dalc": Dalc,
+                "Walc": Walc,
+                "health": health,
+                "absences": absences
+            }
+
+            # Detect expected features when available
+            expected_features = getattr(
+                model,
+                "feature_names_in_",
+                None
             )
+
+            if expected_features is not None:
+
+                expected_features = list(
+                    expected_features
+                )
+
+                # If the model was trained with school,
+                # provide it internally only.
+                if "school" in expected_features:
+
+                    student_values["school"] = "GP"
+
+                student_data = pd.DataFrame(
+                    [student_values]
+                )
+
+                # Match the model's expected column order.
+                student_data = student_data[
+                    expected_features
+                ]
+
+            else:
+
+                # Fallback for the current saved pipeline.
+                student_values["school"] = "GP"
+
+                student_data = pd.DataFrame(
+                    [student_values]
+                )
+
+            # ------------------------------------------------
+            # PREDICTION
+            # ------------------------------------------------
 
             probabilities = model.predict_proba(
                 student_data
             )
 
-            class_names = model.classes_
+            class_names = list(
+                model.classes_
+            )
 
-            at_risk_index = list(
-                class_names
-            ).index("At Risk")
-
-            risk_probability = probabilities[
-                0,
-                at_risk_index
-            ]
-
-            threshold = 0.40
-
-            if risk_probability >= threshold:
-
-                status = "Potentially At Risk"
+            if "At Risk" not in class_names:
 
                 st.error(
-                    f"⚠️ {status}"
+                    "The saved model does not contain "
+                    "the expected 'At Risk' class."
                 )
 
             else:
 
-                status = "Not At Risk"
-
-                st.success(
-                    f"✅ {status}"
+                at_risk_index = class_names.index(
+                    "At Risk"
                 )
 
-            # Save result for Dashboard
-            st.session_state.risk_probability = (
-                risk_probability
-            )
-
-            st.session_state.risk_status = status
-
-            st.subheader("📊 Prediction Results")
-
-            col1, col2, col3 = st.columns(3)
-
-            with col1:
-
-                st.metric(
-                    "Risk Probability",
-                    f"{risk_probability:.1%}"
+                risk_probability = float(
+                    probabilities[
+                        0,
+                        at_risk_index
+                    ]
                 )
 
-            with col2:
+                threshold = 0.40
 
-                st.metric(
-                    "Status",
+                # ------------------------------------------------
+                # STATUS
+                # ------------------------------------------------
+
+                if risk_probability >= threshold:
+
+                    status = "Potentially At Risk"
+
+                    st.error(
+                        f"⚠️ {status}"
+                    )
+
+                else:
+
+                    status = "Not At Risk"
+
+                    st.success(
+                        f"✅ {status}"
+                    )
+
+                # ------------------------------------------------
+                # SAVE FOR DASHBOARD
+                # ------------------------------------------------
+
+                st.session_state.risk_probability = (
+                    risk_probability
+                )
+
+                st.session_state.risk_status = (
                     status
                 )
 
-            with col3:
+                # ------------------------------------------------
+                # RESULTS
+                # ------------------------------------------------
 
-                st.metric(
-                    "Decision Threshold",
-                    f"{threshold:.0%}"
+                st.subheader("📊 Prediction Results")
+
+                col1, col2, col3 = st.columns(3)
+
+                with col1:
+
+                    st.metric(
+                        "Risk Probability",
+                        f"{risk_probability:.1%}"
+                    )
+
+                with col2:
+
+                    st.metric(
+                        "Status",
+                        status
+                    )
+
+                with col3:
+
+                    st.metric(
+                        "Decision Threshold",
+                        f"{threshold:.0%}"
+                    )
+
+                st.progress(
+                    min(
+                        max(
+                            risk_probability,
+                            0.0
+                        ),
+                        1.0
+                    )
                 )
 
-            st.progress(
-                float(risk_probability)
-            )
+                if risk_probability >= threshold:
 
-            if risk_probability >= threshold:
+                    st.warning(
+                        "The model estimates that this student "
+                        "may benefit from additional academic "
+                        "attention and support."
+                    )
 
-                st.warning(
-                    "The model estimates that this student "
-                    "may benefit from additional academic "
-                    "attention and support."
+                else:
+
+                    st.info(
+                        "The model does not currently flag this "
+                        "student as potentially at risk."
+                    )
+
+                st.caption(
+                    "Model: Logistic Regression | "
+                    "Risk threshold: 0.40"
                 )
-
-            else:
-
-                st.info(
-                    "The model does not currently flag this "
-                    "student as potentially at risk."
-                )
-
-            st.caption(
-                "Model: Logistic Regression | "
-                "Risk threshold: 0.40"
-            )
 
         except FileNotFoundError:
 
@@ -998,18 +1347,24 @@ elif page == "🧠 Risk Assessment":
 
 elif page == "💬 Ask Student AI":
 
-    st.title("💬 Ask Student AI")
-
-    st.write(
-        "Tell the Student AI what you are struggling with "
-        "and get simple, practical guidance."
+    st.markdown(
+        """
+        <div class="hero-card">
+            <h1>💬 Ask Student AI</h1>
+            <p>
+                Tell us what you're struggling with and
+                get simple, practical guidance.
+            </p>
+        </div>
+        """,
+        unsafe_allow_html=True
     )
 
     st.info(
         "💡 This assistant provides general academic and "
         "student-support guidance. For serious personal, "
         "mental-health or safety concerns, please speak "
-        "to a trusted adult or qualified professional."
+        "with a trusted person or qualified professional."
     )
 
     st.subheader("📝 What do you need help with?")
@@ -1033,7 +1388,7 @@ elif page == "💬 Ask Student AI":
             "Example: I am studying regularly but my "
             "marks are still not improving."
         ),
-        height=150
+        height=160
     )
 
     st.divider()
@@ -1063,9 +1418,9 @@ elif page == "💬 Ask Student AI":
             ):
 
                 st.write(
-                    "If your marks are not improving, start by "
-                    "identifying which subjects or topics are "
-                    "causing the most difficulty."
+                    "If your marks are not improving, begin by "
+                    "identifying the subjects or topics causing "
+                    "the most difficulty."
                 )
 
                 st.markdown(
@@ -1073,10 +1428,10 @@ elif page == "💬 Ask Student AI":
                     **Try this:**
 
                     - Review your recent test mistakes.
-                    - Identify 2–3 topics that need the most attention.
+                    - Identify 2–3 topics needing the most attention.
                     - Practise those topics instead of only rereading notes.
                     - Ask your teacher for clarification when you are stuck.
-                    - Track your marks over time to see whether your strategy is working.
+                    - Track your marks over time.
                     """
                 )
 
@@ -1100,7 +1455,7 @@ elif page == "💬 Ask Student AI":
                     - Divide large subjects into smaller topics.
                     - Use focused study sessions with short breaks.
                     - Keep your phone away during focused sessions.
-                    - Review what you learned at the end of each session.
+                    - Review what you learned at the end.
                     """
                 )
 
@@ -1121,8 +1476,8 @@ elif page == "💬 Ask Student AI":
 
                     - Make a realistic revision timetable.
                     - Practise previous questions or sample papers.
-                    - Focus on topics you find difficult.
-                    - Review mistakes instead of simply checking answers.
+                    - Focus on difficult topics.
+                    - Review mistakes.
                     - Get enough sleep before the exam.
                     """
                 )
@@ -1134,19 +1489,19 @@ elif page == "💬 Ask Student AI":
             ):
 
                 st.write(
-                    "Regular attendance can make it easier to keep "
-                    "up with lessons, assignments and important explanations."
+                    "Regular attendance can make it easier to "
+                    "keep up with lessons and assignments."
                 )
 
                 st.markdown(
                     """
                     **Try this:**
 
-                    - Identify the main reason for missed classes.
+                    - Identify the reason for missed classes.
                     - Speak with your teacher if you have fallen behind.
                     - Collect missed notes and assignments.
-                    - Create a plan to attend classes more consistently.
-                    - If attendance problems are caused by circumstances outside your control, ask your school for support.
+                    - Create a plan for more consistent attendance.
+                    - Ask your school for support when needed.
                     """
                 )
 
@@ -1159,9 +1514,8 @@ elif page == "💬 Ask Student AI":
             ):
 
                 st.write(
-                    "Feeling stressed about studies can make it harder "
-                    "to concentrate. Try focusing on one manageable "
-                    "step at a time."
+                    "Academic stress can make concentration difficult. "
+                    "Try focusing on one manageable step at a time."
                 )
 
                 st.markdown(
@@ -1171,8 +1525,9 @@ elif page == "💬 Ask Student AI":
                     - Break your workload into smaller tasks.
                     - Take short breaks between study sessions.
                     - Maintain a regular sleep routine.
-                    - Talk to someone you trust about how you are feeling.
-                    - If stress becomes overwhelming or persistent, consider speaking with a qualified professional.
+                    - Talk to someone you trust.
+                    - If stress becomes overwhelming or persistent,
+                      consider speaking with a qualified professional.
                     """
                 )
 
@@ -1185,18 +1540,17 @@ elif page == "💬 Ask Student AI":
 
                 st.write(
                     "You do not need to feel motivated before starting. "
-                    "Sometimes beginning with a very small task helps "
-                    "build momentum."
+                    "Beginning with a very small task can help build momentum."
                 )
 
                 st.markdown(
                     """
                     **Try this:**
 
-                    - Choose one small task to complete first.
-                    - Set a short timer and start working.
-                    - Remove distractions from your study area.
-                    - Keep track of completed tasks.
+                    - Choose one small task.
+                    - Set a short timer and start.
+                    - Remove distractions.
+                    - Track completed tasks.
                     - Reward yourself after finishing an important task.
                     """
                 )
@@ -1206,7 +1560,7 @@ elif page == "💬 Ask Student AI":
                 st.write(
                     "Thanks for sharing your concern. Start by "
                     "breaking the problem into smaller parts and "
-                    "identifying the one thing you can improve first."
+                    "identifying one thing you can improve first."
                 )
 
                 st.markdown(
@@ -1216,7 +1570,7 @@ elif page == "💬 Ask Student AI":
                     - Write down the specific problem.
                     - Identify what is within your control.
                     - Choose one small action to take today.
-                    - Ask a teacher, mentor or trusted person for help when needed.
+                    - Ask a teacher, mentor or trusted person for help.
                     - Check your progress after a few days.
                     """
                 )
@@ -1232,7 +1586,13 @@ elif page == "💬 Ask Student AI":
 
 st.divider()
 
-st.caption(
-    "Student Performance Early-Warning System | "
-    "Machine Learning + Streamlit"
-    )
+st.markdown(
+    """
+    <div class="footer">
+        <strong>Student Performance Early-Warning System</strong><br>
+        Machine Learning + Streamlit<br>
+        Developed by Alishba Ejaz
+    </div>
+    """,
+    unsafe_allow_html=True
+            )
