@@ -409,27 +409,6 @@ elif page == "💚 Well-being":
             )
 
         if stress_level <= 3 and energy_level >= 7:
-
-            st.success(
-                "🌟 You seem to be doing well. "
-                "Keep maintaining healthy habits and routines."
-            )
-
-        elif stress_level <= 6:
-
-            st.info(
-                "💙 Your stress level is moderate. "
-                "Remember to take breaks and give yourself time to recharge."
-            )
-
-        else:
-
-            st.warning(
-                "💛 Your stress level seems high. "
-                "Consider taking some time to rest, talk to someone you trust, "
-                "and focus on activities that help you feel better."
-            )
-
 elif page == "🧠 Risk Assessment":
 
     st.title("🧠 ML Risk Assessment")
@@ -445,93 +424,104 @@ elif page == "🧠 Risk Assessment":
     )
 
     # --------------------------------------------------
-# STUDENT INFORMATION
-# --------------------------------------------------
+    # STUDENT INFORMATION
+    # --------------------------------------------------
 
-st.subheader("👤 Student Information")
+    st.subheader("👤 Student Information")
 
-col1, col2, col3 = st.columns(3)
+    col1, col2, col3 = st.columns(3)
 
-with col1:
+    with col1:
 
-    sex_label = st.selectbox(
-        "Gender",
-        ["Female", "Male"]
-    )
+        sex_label = st.selectbox(
+            "Gender",
+            ["Female", "Male"]
+        )
 
-    sex = "F" if sex_label == "Female" else "M"
+        sex = "F" if sex_label == "Female" else "M"
 
-    age = st.number_input(
-        "Age",
-        min_value=15,
-        max_value=25,
-        value=17
-    )
+        age = st.number_input(
+            "Age",
+            min_value=15,
+            max_value=25,
+            value=17
+        )
 
-with col2:
+    with col2:
 
-    address_label = st.selectbox(
-        "Area of Residence",
-        ["Urban", "Rural"]
-    )
+        address_label = st.selectbox(
+            "Area of Residence",
+            ["Urban", "Rural"]
+        )
 
-    address = "U" if address_label == "Urban" else "R"
+        address = "U" if address_label == "Urban" else "R"
 
-    family_size_label = st.selectbox(
-        "Family Size",
-        ["3 or fewer members", "More than 3 members"]
-    )
+        family_size_label = st.selectbox(
+            "Family Size",
+            [
+                "3 or fewer members",
+                "More than 3 members"
+            ]
+        )
 
-    family_size = (
-        "LE3"
-        if family_size_label == "3 or fewer members"
-        else "GT3"
-    )
+        family_size = (
+            "LE3"
+            if family_size_label == "3 or fewer members"
+            else "GT3"
+        )
 
-    parent_label = st.selectbox(
-        "Parents' Living Arrangement",
-        ["Living together", "Living separately"]
-    )
+        parent_label = st.selectbox(
+            "Parents' Living Arrangement",
+            [
+                "Living together",
+                "Living separately"
+            ]
+        )
 
-    parent_cohabitation = (
-        "T"
-        if parent_label == "Living together"
-        else "A"
-    )
+        parent_cohabitation = (
+            "T"
+            if parent_label == "Living together"
+            else "A"
+        )
 
-with col3:
+    with col3:
 
-    guardian_label = st.selectbox(
-        "Guardian",
-        ["Mother", "Father", "Other"]
-    )
+        guardian_label = st.selectbox(
+            "Guardian",
+            ["Mother", "Father", "Other"]
+        )
 
-    guardian = guardian_label.lower()
+        guardian = guardian_label.lower()
 
-    reason_label = st.selectbox(
-        "Main Reason for Choosing School",
-        [
-            "Course",
-            "School reputation",
-            "Close to home",
-            "Other"
-        ]
-    )
+        reason_label = st.selectbox(
+            "Main Reason for Choosing School",
+            [
+                "Course",
+                "School reputation",
+                "Close to home",
+                "Other"
+            ]
+        )
 
-    reason = reason_label.lower()
+        reason = reason_label.lower()
 
-    nursery_label = st.selectbox(
-        "Attended Nursery School",
-        ["Yes", "No"]
-    )
+        nursery_label = st.selectbox(
+            "Attended Nursery School",
+            ["Yes", "No"]
+        )
 
-    nursery = nursery_label.lower()
-    
+        nursery = nursery_label.lower()
+
+    # --------------------------------------------------
+    # ACADEMIC & FAMILY FACTORS
+    # --------------------------------------------------
+
     st.subheader("🎓 Academic & Family Factors")
 
     col1, col2, col3 = st.columns(3)
 
     with col1:
+
         medu = st.slider(
             "Mother's Education",
             0, 4, 2
@@ -553,14 +543,27 @@ with col3:
         )
 
     with col2:
+
         mjob = st.selectbox(
             "Mother's Job",
-            ["teacher", "health", "services", "at_home", "other"]
+            [
+                "teacher",
+                "health",
+                "services",
+                "at_home",
+                "other"
+            ]
         )
 
         fjob = st.selectbox(
             "Father's Job",
-            ["teacher", "health", "services", "at_home", "other"]
+            [
+                "teacher",
+                "health",
+                "services",
+                "at_home",
+                "other"
+            ]
         )
 
         traveltime = st.slider(
@@ -574,6 +577,7 @@ with col3:
         )
 
     with col3:
+
         schoolsup = st.selectbox(
             "Extra School Support",
             ["yes", "no"]
@@ -596,11 +600,16 @@ with col3:
 
     st.divider()
 
+    # --------------------------------------------------
+    # SOCIAL & LIFESTYLE FACTORS
+    # --------------------------------------------------
+
     st.subheader("🌱 Social & Lifestyle Factors")
 
     col1, col2, col3 = st.columns(3)
 
     with col1:
+
         activities = st.selectbox(
             "Extracurricular Activities",
             ["yes", "no"]
@@ -622,6 +631,7 @@ with col3:
         )
 
     with col2:
+
         goout = st.slider(
             "Going Out With Friends",
             1, 5, 3
@@ -643,6 +653,7 @@ with col3:
         )
 
     with col3:
+
         absences = st.number_input(
             "School Absences",
             min_value=0,
@@ -653,12 +664,17 @@ with col3:
         st.write("")
         st.write("")
         st.write("")
+
         st.write(
             "💡 These inputs correspond to factors used "
             "by the trained ML model."
         )
 
     st.divider()
+
+    # --------------------------------------------------
+    # RISK PREDICTION
+    # --------------------------------------------------
 
     if st.button(
         "🔍 Assess Academic Risk",
@@ -671,13 +687,18 @@ with col3:
                 "student_performance_model.pkl"
             )
 
+            # The original ML dataset contains a school field.
+            # Since we removed the school option from the interface,
+            # use a fixed value internally for now.
+            school = "GP"
+
             student_data = pd.DataFrame([{
                 "school": school,
                 "sex": sex,
                 "age": age,
                 "address": address,
-                "famsize": famsize,
-                "Pstatus": pstatus,
+                "famsize": family_size,
+                "Pstatus": parent_cohabitation,
                 "Medu": medu,
                 "Fedu": fedu,
                 "Mjob": mjob,
@@ -742,18 +763,21 @@ with col3:
             col1, col2, col3 = st.columns(3)
 
             with col1:
+
                 st.metric(
                     "Risk Probability",
                     f"{risk_probability:.1%}"
                 )
 
             with col2:
+
                 st.metric(
                     "Status",
                     status
                 )
 
             with col3:
+
                 st.metric(
                     "Decision Threshold",
                     f"{threshold:.0%}"
@@ -786,9 +810,9 @@ with col3:
         except FileNotFoundError:
 
             st.error(
-                "❌ student_performance_model.pkl "
-                "was not found. Make sure the model file "
-                "is in the same GitHub repository as app.py."
+                "❌ student_performance_model.pkl was not found. "
+                "Make sure the model file is in the same "
+                "GitHub repository as app.py."
             )
 
         except Exception as e:
@@ -796,6 +820,11 @@ with col3:
             st.error(
                 f"⚠️ Prediction error: {e}"
             )
+
+
+# --------------------------------------------------
+# ASK STUDENT AI
+# --------------------------------------------------
 
 elif page == "💬 Ask Student AI":
 
@@ -814,12 +843,16 @@ elif page == "💬 Ask Student AI":
         )
     )
 
-    if st.button("Get Guidance", use_container_width=True):
+    if st.button(
+        "Get Guidance",
+        use_container_width=True
+    ):
 
         if question.strip():
 
             st.info(
-                "The student-support assistant will be connected here next."
+                "The student-support assistant will be "
+                "connected here next."
             )
 
         else:
@@ -829,9 +862,37 @@ elif page == "💬 Ask Student AI":
             )
 
 
+# --------------------------------------------------
+# FOOTER
+# --------------------------------------------------
+
 st.divider()
 
 st.caption(
     "Student Performance Early-Warning System | "
     "Machine Learning + Streamlit"
 )
+
+
+
+            st.success(
+                "🌟 You seem to be doing well. "
+                "Keep maintaining healthy habits and routines."
+            )
+
+        elif stress_level <= 6:
+
+            st.info(
+                "💙 Your stress level is moderate. "
+                "Remember to take breaks and give yourself time to recharge."
+            )
+
+        else:
+
+            st.warning(
+                "💛 Your stress level seems high. "
+                "Consider taking some time to rest, talk to someone you trust, "
+                "and focus on activities that help you feel better."
+            )
+
+
