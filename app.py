@@ -444,57 +444,88 @@ elif page == "🧠 Risk Assessment":
         "replace teacher, counselor or professional judgment."
     )
 
-    st.subheader("👤 Student Information")
+    # --------------------------------------------------
+# STUDENT INFORMATION
+# --------------------------------------------------
 
-    col1, col2, col3 = st.columns(3)
+st.subheader("👤 Student Information")
 
-    with col1:
-        sex = st.selectbox(
-            "Sex",
-            ["F", "M"]
-        )
+col1, col2, col3 = st.columns(3)
 
-        age = st.number_input(
-            "Age",
-            min_value=15,
-            max_value=25,
-            value=17
-        )
+with col1:
 
-    with col2:
-        address = st.selectbox(
-            "Address",
-            ["U", "R"]
-        )
+    sex_label = st.selectbox(
+        "Gender",
+        ["Female", "Male"]
+    )
 
-        famsize = st.selectbox(
-            "Family Size",
-            ["LE3", "GT3"]
-        )
+    sex = "F" if sex_label == "Female" else "M"
 
-        pstatus = st.selectbox(
-            "Parent Cohabitation",
-            ["T", "A"]
-        )
+    age = st.number_input(
+        "Age",
+        min_value=15,
+        max_value=25,
+        value=17
+    )
 
-    with col3:
-        guardian = st.selectbox(
-            "Guardian",
-            ["mother", "father", "other"]
-        )
+with col2:
 
-        reason = st.selectbox(
-            "Reason for Choosing School",
-            ["course", "reputation", "home", "other"]
-        )
+    address_label = st.selectbox(
+        "Area of Residence",
+        ["Urban", "Rural"]
+    )
 
-        nursery = st.selectbox(
-            "Attended Nursery School",
-            ["yes", "no"]
-        )
+    address = "U" if address_label == "Urban" else "R"
 
-    st.divider()
+    family_size_label = st.selectbox(
+        "Family Size",
+        ["3 or fewer members", "More than 3 members"]
+    )
 
+    family_size = (
+        "LE3"
+        if family_size_label == "3 or fewer members"
+        else "GT3"
+    )
+
+    parent_label = st.selectbox(
+        "Parents' Living Arrangement",
+        ["Living together", "Living separately"]
+    )
+
+    parent_cohabitation = (
+        "T"
+        if parent_label == "Living together"
+        else "A"
+    )
+
+with col3:
+
+    guardian_label = st.selectbox(
+        "Guardian",
+        ["Mother", "Father", "Other"]
+    )
+
+    guardian = guardian_label.lower()
+
+    reason_label = st.selectbox(
+        "Main Reason for Choosing School",
+        [
+            "Course",
+            "School reputation",
+            "Close to home",
+            "Other"
+        ]
+    )
+
+    reason = reason_label.lower()
+
+    nursery_label = st.selectbox(
+        "Attended Nursery School",
+        ["Yes", "No"]
+    )
+
+    nursery = nursery_label.lower()
     st.subheader("🎓 Academic & Family Factors")
 
     col1, col2, col3 = st.columns(3)
