@@ -449,11 +449,6 @@ elif page == "🧠 Risk Assessment":
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        school = st.selectbox(
-            "School",
-            ["GP", "MS"]
-        )
-
         sex = st.selectbox(
             "Sex",
             ["F", "M"]
