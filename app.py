@@ -1,6 +1,33 @@
 import streamlit as st
 import pandas as pd
 import joblib
+# ============================================================
+# SESSION STATE
+# ============================================================
+
+if "average_marks" not in st.session_state:
+    st.session_state.average_marks = None
+
+if "attendance" not in st.session_state:
+    st.session_state.attendance = None
+
+if "risk_probability" not in st.session_state:
+    st.session_state.risk_probability = None
+
+if "risk_status" not in st.session_state:
+    st.session_state.risk_status = "Not Assessed"
+
+if "study_hours" not in st.session_state:
+    st.session_state.study_hours = None
+
+if "sleep_hours" not in st.session_state:
+    st.session_state.sleep_hours = None
+
+if "mood" not in st.session_state:
+    st.session_state.mood = None
+
+if "stress" not in st.session_state:
+    st.session_state.stress = None
 
 
 # ============================================================
