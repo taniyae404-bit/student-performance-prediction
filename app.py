@@ -60,83 +60,95 @@ if page == "🏠 Dashboard":
         st.metric("Sleep", "—")
 
 
-elif page == "📚 Academic Performance":
+elif page == "🧠 Risk Assessment":
 
-    st.title("📚 Academic Performance")
+    st.title("🧠 ML Risk Assessment")
 
     st.write(
-        "Track your test results and monitor your academic progress."
+        "Enter your academic, family, social and lifestyle information "
+        "to estimate your potential academic risk."
     )
 
-    st.subheader("📝 Enter Your Test Results")
-
-    col1, col2 = st.columns(2)
-   with col1:
-    test_1 = st.number_input(
-        "Test 1 Marks",
-        min_value=0,
-        max_value=100,
-        value=0
+    st.info(
+        "This prediction is an early-warning indicator and should not "
+        "replace teacher, counselor or professional judgment."
     )
 
-    test_2 = st.number_input(
-        "Test 2 Marks",
-        min_value=0,
-        max_value=100,
-        value=0
-    )
-
-with col2:
-    assignment = st.number_input(
-        "Assignment Marks",
-        min_value=0,
-        max_value=100,
-        value=0
-    )
-
-    attendance = st.number_input(
-        "Attendance (%)",
-        min_value=0,
-        max_value=100,
-        value=75
-    )
-
-if st.button("📊 Analyse Performance", use_container_width=True):
-
-    average_marks = (test_1 + test_2 + assignment) / 3
-
-    st.subheader("📈 Performance Summary")
+    st.subheader("👤 Student Information")
 
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        st.metric("Average Marks", f"{average_marks:.1f}%")
+        sex_label = st.selectbox(
+            "Gender",
+            ["Female", "Male"]
+        )
+
+        sex = "F" if sex_label == "Female" else "M"
+
+        age = st.number_input(
+            "Age",
+            min_value=15,
+            max_value=25,
+            value=17
+        )
 
     with col2:
-        st.metric("Attendance", f"{attendance:.0f}%")
+        address_label = st.selectbox(
+            "Area of Residence",
+            ["Urban", "Rural"]
+        )
+
+        address = "U" if address_label == "Urban" else "R"
+
+        family_size_label = st.selectbox(
+            "Family Size",
+            ["3 or fewer members", "More than 3 members"]
+        )
+
+        family_size = (
+            "LE3"
+            if family_size_label == "3 or fewer members"
+            else "GT3"
+        )
+
+        parent_label = st.selectbox(
+            "Parents' Living Arrangement",
+            ["Living together", "Living separately"]
+        )
+
+        parent_cohabitation = (
+            "T"
+            if parent_label == "Living together"
+            else "A"
+        )
 
     with col3:
-        if average_marks >= 75:
-            status = "Good"
-        elif average_marks >= 50:
-            status = "Needs Improvement"
-        else:
-            status = "At Risk"
+        guardian_label = st.selectbox(
+            "Guardian",
+            ["Mother", "Father", "Other"]
+        )
 
-        st.metric("Academic Status", status)
+        guardian = guardian_label.lower()
 
-    if average_marks >= 75:
-        st.success("🎉 Your academic performance is looking good. Keep maintaining your consistency!")
+        reason_label = st.selectbox(
+            "Main Reason for Choosing School",
+            [
+                "Course",
+                "School reputation",
+                "Close to home",
+                "Other"
+            ]
+        )
 
-    elif average_marks >= 50:
-        st.warning("📚 Your performance needs some improvement. Consider increasing your revision and practice time.")
+        reason = reason_label.lower()
 
-    else:
-        st.error("⚠️ Your current performance indicates a potential academic risk.")
+        nursery_label = st.selectbox(
+            "Attended Nursery School",
+            ["Yes", "No"]
+        )
 
-    if attendance < 75:
-        st.warning("📅 Your attendance is below 75%. Improving attendance may help your academic progress.")
-    
+        nursery = nursery_label.lower()
 
 elif page == "⏱️ Study Tracker":
 
