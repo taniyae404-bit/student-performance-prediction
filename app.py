@@ -435,14 +435,340 @@ elif page == "🧠 Risk Assessment":
     st.title("🧠 ML Risk Assessment")
 
     st.write(
-        "The machine-learning model estimates whether a student "
-        "may be potentially at risk of poor academic performance."
+        "Enter your academic, family, social and lifestyle information "
+        "to estimate your potential academic risk."
     )
 
     st.info(
-        "The revised Logistic Regression model will be connected here next."
+        "This prediction is an early-warning indicator and should not "
+        "replace teacher, counselor or professional judgment."
     )
 
+    st.subheader("👤 Student Information")
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        school = st.selectbox(
+            "School",
+            ["GP", "MS"]
+        )
+
+        sex = st.selectbox(
+            "Sex",
+            ["F", "M"]
+        )
+
+        age = st.number_input(
+            "Age",
+            min_value=15,
+            max_value=25,
+            value=17
+        )
+
+    with col2:
+        address = st.selectbox(
+            "Address",
+            ["U", "R"]
+        )
+
+        famsize = st.selectbox(
+            "Family Size",
+            ["LE3", "GT3"]
+        )
+
+        pstatus = st.selectbox(
+            "Parent Cohabitation",
+            ["T", "A"]
+        )
+
+    with col3:
+        guardian = st.selectbox(
+            "Guardian",
+            ["mother", "father", "other"]
+        )
+
+        reason = st.selectbox(
+            "Reason for Choosing School",
+            ["course", "reputation", "home", "other"]
+        )
+
+        nursery = st.selectbox(
+            "Attended Nursery School",
+            ["yes", "no"]
+        )
+
+    st.divider()
+
+    st.subheader("🎓 Academic & Family Factors")
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        medu = st.slider(
+            "Mother's Education",
+            0, 4, 2
+        )
+
+        fedu = st.slider(
+            "Father's Education",
+            0, 4, 2
+        )
+
+        studytime = st.slider(
+            "Weekly Study Time",
+            1, 4, 2
+        )
+
+        failures = st.slider(
+            "Past Class Failures",
+            0, 4, 0
+        )
+
+    with col2:
+        mjob = st.selectbox(
+            "Mother's Job",
+            ["teacher", "health", "services", "at_home", "other"]
+        )
+
+        fjob = st.selectbox(
+            "Father's Job",
+            ["teacher", "health", "services", "at_home", "other"]
+        )
+
+        traveltime = st.slider(
+            "Travel Time to School",
+            1, 4, 2
+        )
+
+        famrel = st.slider(
+            "Family Relationship Quality",
+            1, 5, 4
+        )
+
+    with col3:
+        schoolsup = st.selectbox(
+            "Extra School Support",
+            ["yes", "no"]
+        )
+
+        famsup = st.selectbox(
+            "Family Educational Support",
+            ["yes", "no"]
+        )
+
+        paid = st.selectbox(
+            "Extra Paid Classes",
+            ["yes", "no"]
+        )
+
+        higher = st.selectbox(
+            "Wants Higher Education",
+            ["yes", "no"]
+        )
+
+    st.divider()
+
+    st.subheader("🌱 Social & Lifestyle Factors")
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        activities = st.selectbox(
+            "Extracurricular Activities",
+            ["yes", "no"]
+        )
+
+        internet = st.selectbox(
+            "Internet Access",
+            ["yes", "no"]
+        )
+
+        romantic = st.selectbox(
+            "Romantic Relationship",
+            ["yes", "no"]
+        )
+
+        freetime = st.slider(
+            "Free Time After School",
+            1, 5, 3
+        )
+
+    with col2:
+        goout = st.slider(
+            "Going Out With Friends",
+            1, 5, 3
+        )
+
+        Dalc = st.slider(
+            "Weekday Alcohol Consumption",
+            1, 5, 1
+        )
+
+        Walc = st.slider(
+            "Weekend Alcohol Consumption",
+            1, 5, 1
+        )
+
+        health = st.slider(
+            "Current Health",
+            1, 5, 3
+        )
+
+    with col3:
+        absences = st.number_input(
+            "School Absences",
+            min_value=0,
+            max_value=100,
+            value=4
+        )
+
+        st.write("")
+        st.write("")
+        st.write("")
+        st.write(
+            "💡 These inputs correspond to factors used "
+            "by the trained ML model."
+        )
+
+    st.divider()
+
+    if st.button(
+        "🔍 Assess Academic Risk",
+        use_container_width=True
+    ):
+
+        try:
+
+            model = joblib.load(
+                "student_performance_model.pkl"
+            )
+
+            student_data = pd.DataFrame([{
+                "school": school,
+                "sex": sex,
+                "age": age,
+                "address": address,
+                "famsize": famsize,
+                "Pstatus": pstatus,
+                "Medu": medu,
+                "Fedu": fedu,
+                "Mjob": mjob,
+                "Fjob": fjob,
+                "reason": reason,
+                "guardian": guardian,
+                "traveltime": traveltime,
+                "studytime": studytime,
+                "failures": failures,
+                "schoolsup": schoolsup,
+                "famsup": famsup,
+                "paid": paid,
+                "activities": activities,
+                "nursery": nursery,
+                "higher": higher,
+                "internet": internet,
+                "romantic": romantic,
+                "famrel": famrel,
+                "freetime": freetime,
+                "goout": goout,
+                "Dalc": Dalc,
+                "Walc": Walc,
+                "health": health,
+                "absences": absences
+            }])
+
+            probabilities = model.predict_proba(
+                student_data
+            )
+
+            class_names = model.classes_
+
+            at_risk_index = list(class_names).index(
+                "At Risk"
+            )
+
+            risk_probability = probabilities[
+                0,
+                at_risk_index
+            ]
+
+            threshold = 0.40
+
+            if risk_probability >= threshold:
+
+                status = "Potentially At Risk"
+
+                st.error(
+                    f"⚠️ {status}"
+                )
+
+            else:
+
+                status = "Not At Risk"
+
+                st.success(
+                    f"✅ {status}"
+                )
+
+            st.subheader("📊 Prediction Results")
+
+            col1, col2, col3 = st.columns(3)
+
+            with col1:
+                st.metric(
+                    "Risk Probability",
+                    f"{risk_probability:.1%}"
+                )
+
+            with col2:
+                st.metric(
+                    "Status",
+                    status
+                )
+
+            with col3:
+                st.metric(
+                    "Decision Threshold",
+                    f"{threshold:.0%}"
+                )
+
+            st.progress(
+                float(risk_probability)
+            )
+
+            if risk_probability >= threshold:
+
+                st.warning(
+                    "The model estimates that this student "
+                    "may benefit from additional academic "
+                    "attention and support."
+                )
+
+            else:
+
+                st.info(
+                    "The model does not currently flag this "
+                    "student as potentially at risk."
+                )
+
+            st.caption(
+                "Model: Logistic Regression | "
+                "Risk threshold: 0.40"
+            )
+
+        except FileNotFoundError:
+
+            st.error(
+                "❌ student_performance_model.pkl "
+                "was not found. Make sure the model file "
+                "is in the same GitHub repository as app.py."
+            )
+
+        except Exception as e:
+
+            st.error(
+                f"⚠️ Prediction error: {e}"
+            )
 
 elif page == "💬 Ask Student AI":
 
