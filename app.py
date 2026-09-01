@@ -859,41 +859,229 @@ elif page == "💬 Ask Student AI":
     st.title("💬 Ask Student AI")
 
     st.write(
-        "Need help deciding what to focus on? "
-        "Tell us about your academic difficulty."
+        "Tell the Student AI what you are struggling with "
+        "and get simple, practical guidance."
+    )
+
+    st.info(
+        "💡 This assistant provides general academic and "
+        "student-support guidance. For serious personal, "
+        "mental-health or safety concerns, please speak "
+        "to a trusted adult or qualified professional."
+    )
+
+    st.subheader("📝 What do you need help with?")
+
+    topic = st.selectbox(
+        "Choose an area",
+        [
+            "Academic Performance",
+            "Study & Time Management",
+            "Exam Preparation",
+            "Attendance",
+            "Stress & Well-being",
+            "Motivation",
+            "Other"
+        ]
     )
 
     question = st.text_area(
-        "What are you struggling with?",
+        "Describe your problem",
         placeholder=(
-            "Example: I'm struggling with Mathematics "
-            "and my marks aren't improving."
-        )
+            "Example: I am studying regularly but my marks "
+            "are still not improving."
+        ),
+        height=150
     )
 
+    st.divider()
+
     if st.button(
-        "Get Guidance",
+        "🤖 Get Guidance",
         use_container_width=True
     ):
 
-        if question.strip():
-
-            st.info(
-                "The student-support assistant will be "
-                "connected here next."
-            )
-
-        else:
+        if not question.strip():
 
             st.warning(
                 "Please describe what you are struggling with."
             )
 
+        else:
 
-# ============================================================
-# FOOTER
-# ============================================================
+            text = question.lower()
 
+            st.subheader("💡 Student AI Guidance")
+
+            if (
+                "mark" in text
+                or "grade" in text
+                or "score" in text
+                or topic == "Academic Performance"
+            ):
+
+                st.write(
+                    "If your marks are not improving, start by "
+                    "identifying which subjects or topics are "
+                    "causing the most difficulty."
+                )
+
+                st.markdown(
+                    """
+                    **Try this:**
+
+                    - Review your recent test mistakes.
+                    - Identify 2–3 topics that need the most attention.
+                    - Practise those topics instead of only rereading notes.
+                    - Ask your teacher for clarification when you are stuck.
+                    - Track your marks over time to see whether your strategy is working.
+                    """
+                )
+
+            elif (
+                "study" in text
+                or "time" in text
+                or "schedule" in text
+                or topic == "Study & Time Management"
+            ):
+
+                st.write(
+                    "A consistent study routine is usually more "
+                    "effective than trying to study everything at once."
+                )
+
+                st.markdown(
+                    """
+                    **Try this:**
+
+                    - Set a small daily study goal.
+                    - Divide large subjects into smaller topics.
+                    - Use focused study sessions with short breaks.
+                    - Keep your phone away during focused sessions.
+                    - Review what you learned at the end of each session.
+                    """
+                )
+
+            elif (
+                "exam" in text
+                or "test" in text
+                or topic == "Exam Preparation"
+            ):
+
+                st.write(
+                    "For exam preparation, focus on active practice "
+                    "rather than only reading your notes."
+                )
+
+                st.markdown(
+                    """
+                    **Try this:**
+
+                    - Make a realistic revision timetable.
+                    - Practise previous questions or sample papers.
+                    - Focus on topics you find difficult.
+                    - Review mistakes instead of simply checking answers.
+                    - Get enough sleep before the exam.
+                    """
+                )
+
+            elif (
+                "absent" in text
+                or "attendance" in text
+                or topic == "Attendance"
+            ):
+
+                st.write(
+                    "Regular attendance can make it easier to keep "
+                    "up with lessons, assignments and important explanations."
+                )
+
+                st.markdown(
+                    """
+                    **Try this:**
+
+                    - Identify the main reason for missed classes.
+                    - Speak with your teacher if you have fallen behind.
+                    - Collect missed notes and assignments.
+                    - Create a plan to attend classes more consistently.
+                    - If attendance problems are caused by circumstances outside your control, ask your school for support.
+                    """
+                )
+
+            elif (
+                "stress" in text
+                or "anxious" in text
+                or "anxiety" in text
+                or "overwhelmed" in text
+                or topic == "Stress & Well-being"
+            ):
+
+                st.write(
+                    "Feeling stressed about studies can make it harder "
+                    "to concentrate. Try focusing on one manageable "
+                    "step at a time."
+                )
+
+                st.markdown(
+                    """
+                    **Try this:**
+
+                    - Break your workload into smaller tasks.
+                    - Take short breaks between study sessions.
+                    - Maintain a regular sleep routine.
+                    - Talk to someone you trust about how you are feeling.
+                    - If stress becomes overwhelming or persistent, consider speaking with a qualified professional.
+                    """
+                )
+
+            elif (
+                "motivat" in text
+                or "lazy" in text
+                or "procrast" in text
+                or topic == "Motivation"
+            ):
+
+                st.write(
+                    "You do not need to feel motivated before starting. "
+                    "Sometimes beginning with a very small task helps "
+                    "build momentum."
+                )
+
+                st.markdown(
+                    """
+                    **Try this:**
+
+                    - Choose one small task to complete first.
+                    - Set a short timer and start working.
+                    - Remove distractions from your study area.
+                    - Keep track of completed tasks.
+                    - Reward yourself after finishing an important task.
+                    """
+                )
+
+            else:
+
+                st.write(
+                    "Thanks for sharing your concern. Start by "
+                    "breaking the problem into smaller parts and "
+                    "identifying the one thing you can improve first."
+                )
+
+                st.markdown(
+                    """
+                    **You could try:**
+
+                    - Write down the specific problem.
+                    - Identify what is within your control.
+                    - Choose one small action to take today.
+                    - Ask a teacher, mentor or trusted person for help when needed.
+                    - Check your progress after a few days.
+                    """
+                )
+
+            st.success(
+                "🌱 Small, consistent improvements can make a big difference."
+            )
 st.divider()
 
 st.caption(
