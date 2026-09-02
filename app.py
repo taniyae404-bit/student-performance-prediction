@@ -459,8 +459,8 @@ elif page == "💬 Ask Student AI":
                     "🤖 Student AI is temporarily busy. "
                     "Please try again in a moment."
                 )
-            st.divider()
-            st.caption("Student Performance Early-Warning System | Machine Learning + Streamlit")    
+                st.divider()
+                st.caption("Student Performance Early-Warning System | Machine Learning + Streamlit")    
         
     
-s
+
