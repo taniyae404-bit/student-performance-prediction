@@ -352,7 +352,8 @@ elif page == "🧠 Risk Assessment":
     st.divider(); st.subheader("🌱 Social & Lifestyle Factors"); c1,c2,c3=st.columns(3)
     with c1: activities=st.selectbox("Extracurricular Activities",["yes","no"]); internet=st.selectbox("Internet Access",["yes","no"]); freetime=st.slider("Free Time After School",1,5,3)
     with c2: goout=st.slider("Going Out With Friends",1,5,3); health=st.slider("Current Health",1,5,3)
-    with c3: absences=st.number_input("School Absences",0,100,4); st.info("💡 Romantic relationship and alcohol questions have been removed from the student interface.")
+    with c3:
+    absences = st.number_input("School Absences", 0, 100, 4)
     st.divider(); st.subheader("🤖 Academic Risk Prediction")
     if st.button("🔍 Assess Academic Risk",use_container_width=True):
         try:
