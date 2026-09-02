@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import joblib
-
+import openai import OPENAI
 st.set_page_config(page_title="Student Performance AI", page_icon="🎓", layout="wide")
 
 st.markdown("""
@@ -375,29 +375,98 @@ elif page == "🧠 Risk Assessment":
         except FileNotFoundError: st.error("❌ student_performance_model.pkl was not found. Make sure the model file is in the same GitHub repository as app.py.")
         except Exception as e: st.error(f"⚠️ Prediction error: {e}")
 
-# Student AI
-elif page == "💬 Ask Student AI":
-    st.title("💬 Ask Student AI"); st.write("Tell the Student AI what you are struggling with and get simple, practical guidance."); st.info("💡 This assistant provides general academic and student-support guidance. For serious personal, mental-health or safety concerns, please speak to a trusted adult or qualified professional.")
-    topic=st.selectbox("Choose an area",["Academic Performance","Study & Time Management","Exam Preparation","Attendance","Stress & Well-being","Motivation","Other"])
-    question=st.text_area("Describe your problem",placeholder="Example: I am studying regularly but my marks are still not improving.",height=150)
-    if st.button("🤖 Get Guidance",use_container_width=True):
-        if not question.strip(): st.warning("Please describe what you are struggling with.")
-        else:
-            text=question.lower(); st.subheader("💡 Student AI Guidance")
-            if "mark" in text or "grade" in text or "score" in text or topic=="Academic Performance":
-                st.write("If your marks are not improving, identify which subjects or topics are causing the most difficulty."); st.markdown("- Review recent test mistakes.\n- Identify 2–3 difficult topics.\n- Practise instead of only rereading notes.\n- Ask your teacher when you are stuck.\n- Track your marks over time.")
-            elif "study" in text or "time" in text or "schedule" in text or topic=="Study & Time Management":
-                st.write("A consistent study routine is usually more effective than trying to study everything at once."); st.markdown("- Set a small daily goal.\n- Divide subjects into smaller topics.\n- Use focused sessions with short breaks.\n- Remove distractions.\n- Review each session.")
-            elif "exam" in text or "test" in text or topic=="Exam Preparation":
-                st.write("For exam preparation, focus on active practice rather than only reading notes."); st.markdown("- Make a realistic timetable.\n- Practise sample questions.\n- Focus on difficult topics.\n- Review mistakes.\n- Get enough sleep.")
-            elif "absent" in text or "attendance" in text or topic=="Attendance":
-                st.write("Regular attendance can make it easier to keep up with lessons and assignments."); st.markdown("- Identify why classes are missed.\n- Speak with your teacher if behind.\n- Collect missed work.\n- Plan for more consistent attendance.")
-            elif "stress" in text or "anxious" in text or "anxiety" in text or "overwhelmed" in text or topic=="Stress & Well-being":
-                st.write("Feeling stressed can make concentration harder. Focus on one manageable step at a time."); st.markdown("- Break work into smaller tasks.\n- Take short breaks.\n- Maintain a regular sleep routine.\n- Talk to someone you trust.\n- Seek qualified help if stress is persistent or overwhelming.")
-            elif "motivat" in text or "lazy" in text or "procrast" in text or topic=="Motivation":
-                st.write("You do not need to feel motivated before starting. A very small task can build momentum."); st.markdown("- Choose one small task.\n- Set a short timer.\n- Remove distractions.\n- Track completed tasks.\n- Reward progress.")
-            else:
-                st.write("Start by breaking the problem into smaller parts and identifying one thing you can improve first."); st.markdown("- Write down the problem.\n- Identify what you can control.\n- Choose one small action.\n- Ask a teacher, mentor or trusted person for help.\n- Check progress after a few days.")
-            st.success("🌱 Small, consistent improvements can make a big difference.")
+# ============================================================
+# ASK STUDENT AI
+# ============================================================
 
+elif page == "💬 Ask Student AI":
+
+    st.title("💬 Ask Student AI")
+
+    st.write(
+        "Ask questions about your studies, exams, "
+        "time management, attendance and student well-being."
+    )
+
+    st.info(
+        "💡 Student AI provides general academic guidance. "
+        "For serious personal, mental-health or safety concerns, "
+        "please speak with a trusted adult or qualified professional."
+    )
+
+    st.subheader("📝 What do you need help with?")
+
+    topic = st.selectbox(
+        "Choose an area",
+        [
+            "Academic Performance",
+            "Study & Time Management",
+            "Exam Preparation",
+            "Attendance",
+            "Stress & Well-being",
+            "Motivation",
+            "Other"
+        ]
+    )
+
+    question = st.text_area(
+        "Ask Student AI",
+        placeholder=(
+            "Example: I am studying regularly but my "
+            "marks are still not improving. What should I do?"
+        ),
+        height=150
+    )
+
+    if st.button(
+        "🤖 Ask Student AI",
+        use_container_width=True
+    ):
+
+        if not question.strip():
+
+            st.warning(
+                "Please enter a question first."
+            )
+
+        else:
+
+            try:
+
+                client = OpenAI(
+                    api_key=st.secrets["OPENAI_API_KEY"]
+                )
+
+                response = client.responses.create(
+                    model="gpt-5.6-luna",
+                    instructions=(
+                        "You are Student AI, an academic support "
+                        "assistant inside a student performance "
+                        "early-warning application. "
+                        "Give clear, practical and encouraging "
+                        "answers to students. "
+                        "Focus on academic performance, study "
+                        "habits, exam preparation, attendance, "
+                        "motivation and general student well-being. "
+                        "Do not claim to diagnose mental-health "
+                        "conditions. If a student describes a "
+                        "serious safety or mental-health situation, "
+                        "encourage them to contact a trusted person "
+                        "or qualified professional."
+                    ),
+                    input=(
+                        f"Student selected topic: {topic}\n\n"
+                        f"Student question: {question}"
+                    )
+                )
+
+                st.subheader("💡 Student AI Response")
+
+                st.write(response.output_text)
+
+            except Exception as e:
+
+                st.error(
+                    f"Unable to connect to Student AI: {e}"
+                )
 st.divider(); st.caption("Student Performance Early-Warning System | Machine Learning + Streamlit")
