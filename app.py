@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import joblib
-from openai import OpenAI
+from google import genai
 st.set_page_config(page_title="Student Performance AI", page_icon="🎓", layout="wide")
 
 st.markdown("""
