@@ -435,7 +435,7 @@ elif page == "💬 Ask Student AI":
                          api_key=st.secrets["GEMINI_API_KEY"]
                 )
 
-    response = client.models.generate_content(
+              response = client.models.generate_content(
               model="gemini-3.6-flash",
               contents=(
             "You are Student AI, an academic support assistant "
@@ -453,7 +453,6 @@ elif page == "💬 Ask Student AI":
     )
 
     st.subheader("💡 Student AI Response")
-
     st.write(response.text)
 
     
