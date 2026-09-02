@@ -455,19 +455,18 @@ elif page == "💬 Ask Student AI":
                 )
 
                 st.subheader("💡 Student AI Response")
+
                 st.write(response.text)
 
             except Exception as e:
 
-    st.error(f"Gemini error: {e}")
-
-                st.warning(
-                    "🤖 Student AI is temporarily busy. "
-                    "Please try again in a moment."
+                st.error(
+                    f"Gemini error: {e}"
                 )
 
 
 st.divider()
+
 st.caption(
     "Student Performance Early-Warning System | Machine Learning + Streamlit"
 )
