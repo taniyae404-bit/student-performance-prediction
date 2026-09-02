@@ -452,7 +452,7 @@ elif page == "💬 Ask Student AI":
                     )
                 )
 
-              st.subheader("💡 Student AI Response")
-              st.write(response.text)
+            st.subheader("💡 Student AI Response")
+            st.write(response.text)
     
 st.divider(); st.caption("Student Performance Early-Warning System | Machine Learning + Streamlit")
