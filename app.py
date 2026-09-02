@@ -6,16 +6,202 @@ st.set_page_config(page_title="Student Performance AI", page_icon="🎓", layout
 
 st.markdown("""
 <style>
-.main {background:#f7f9fc;}
-.hero-card{padding:32px;border-radius:22px;margin-bottom:28px;background:linear-gradient(135deg,#eaf2ff,#f8fbff);border:1px solid #dbe7f7;}
-.hero-content{display:flex;align-items:center;gap:22px}.hero-icon{font-size:52px}.hero-card h1{margin:0;font-size:38px}.hero-card p{margin-top:10px;font-size:17px;color:#526071;line-height:1.6}
-.small-card{padding:22px;border-radius:18px;background:white;border:1px solid #e2e8f0;min-height:170px;box-shadow:0 4px 18px rgba(15,23,42,.04)}
-.small-card h3{margin-bottom:8px}.small-card p{color:#5b6675;line-height:1.55}
-[data-testid="stMetric"]{background:white;padding:16px;border-radius:16px;border:1px solid #e2e8f0}
-.stButton>button{border-radius:12px;min-height:46px;font-weight:600} footer{visibility:hidden}
+
+/* ===== APP BACKGROUND ===== */
+[data-testid="stAppViewContainer"] {
+    background: linear-gradient(135deg, #f5f7ff 0%, #eef6ff 50%, #f8f9ff 100%);
+}
+
+[data-testid="stHeader"] {
+    background: transparent;
+}
+
+.block-container {
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+    max-width: 1250px;
+}
+
+/* ===== SIDEBAR ===== */
+[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #111827 0%, #1e293b 100%);
+}
+
+[data-testid="stSidebar"] * {
+    color: #f8fafc !important;
+}
+
+[data-testid="stSidebar"] .stRadio label {
+    border-radius: 10px;
+    padding: 8px 10px;
+    transition: 0.2s ease;
+}
+
+[data-testid="stSidebar"] .stRadio label:hover {
+    background: rgba(255,255,255,0.10);
+}
+
+/* ===== HERO CARD ===== */
+.hero-card {
+    padding: 34px;
+    border-radius: 26px;
+    margin-bottom: 30px;
+    background: linear-gradient(135deg, #dbeafe 0%, #ede9fe 55%, #f0fdfa 100%);
+    border: 1px solid rgba(148,163,184,0.25);
+    box-shadow: 0 12px 35px rgba(30,41,59,0.08);
+}
+
+.hero-content {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.hero-icon {
+    font-size: 58px;
+    background: white;
+    width: 85px;
+    height: 85px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 22px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+.hero-card h1 {
+    margin: 0;
+    font-size: 40px;
+    font-weight: 750;
+    color: #172554;
+}
+
+.hero-card p {
+    margin-top: 10px;
+    font-size: 17px;
+    color: #475569;
+    line-height: 1.6;
+}
+
+/* ===== HEADINGS ===== */
+h1, h2, h3 {
+    color: #172554;
+}
+
+[data-testid="stSubheader"] {
+    color: #1e3a8a;
+}
+
+/* ===== METRIC CARDS ===== */
+[data-testid="stMetric"] {
+    background: rgba(255,255,255,0.88);
+    padding: 20px;
+    border-radius: 20px;
+    border: 1px solid #dbe4f0;
+    box-shadow: 0 8px 25px rgba(15,23,42,0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+[data-testid="stMetric"]:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(37,99,235,0.12);
+}
+
+[data-testid="stMetricLabel"] {
+    color: #64748b !important;
+    font-weight: 600;
+}
+
+[data-testid="stMetricValue"] {
+    color: #172554 !important;
+    font-weight: 750;
+}
+
+/* ===== GENERAL CARDS ===== */
+.small-card {
+    padding: 24px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.9);
+    border: 1px solid #e2e8f0;
+    min-height: 175px;
+    box-shadow: 0 8px 25px rgba(15,23,42,0.05);
+    transition: 0.2s ease;
+}
+
+.small-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(37,99,235,0.10);
+}
+
+.small-card h3 {
+    color: #1e3a8a;
+    margin-bottom: 8px;
+}
+
+.small-card p {
+    color: #64748b;
+    line-height: 1.6;
+}
+
+/* ===== BUTTONS ===== */
+.stButton > button {
+    border-radius: 14px;
+    min-height: 48px;
+    font-weight: 700;
+    border: none;
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    color: white;
+    box-shadow: 0 7px 18px rgba(37,99,235,0.20);
+    transition: 0.2s ease;
+}
+
+.stButton > button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(124,58,237,0.25);
+}
+
+/* ===== INPUTS ===== */
+[data-baseweb="input"],
+[data-baseweb="select"],
+[data-baseweb="textarea"] {
+    border-radius: 12px;
+}
+
+input {
+    border-radius: 12px !important;
+}
+
+/* ===== INFO / SUCCESS / WARNING BOXES ===== */
+[data-testid="stAlert"] {
+    border-radius: 16px;
+    border: none;
+}
+
+/* ===== DIVIDERS ===== */
+hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        #cbd5e1,
+        transparent
+    );
+    margin: 28px 0;
+}
+
+/* ===== PROGRESS BAR ===== */
+[data-testid="stProgressBar"] > div > div {
+    border-radius: 20px;
+}
+
+/* ===== FOOTER ===== */
+footer {
+    visibility: hidden;
+}
+
 </style>
 """, unsafe_allow_html=True)
-
 # Google OAuth: add [auth] redirect_uri/client_id/client_secret/cookie_secret
 # and [auth.google] client_id/client_secret in Streamlit secrets as required by your setup.
 google_auth_enabled = False
