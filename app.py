@@ -423,13 +423,13 @@ elif page == "💬 Ask Student AI":
         use_container_width=True
     ):
 
-        if not question.strip():
+                if not question.strip():
 
             st.warning(
                 "Please enter a question first."
             )
 
-               else:
+        else:
 
             client = genai.Client(
                 api_key=st.secrets["GEMINI_API_KEY"]
@@ -445,10 +445,7 @@ elif page == "💬 Ask Student AI":
                         "Give clear, practical and encouraging answers to students. "
                         "Focus on academic performance, study habits, exam preparation, "
                         "attendance, motivation and general student well-being. "
-                        "Do not claim to diagnose mental-health conditions. "
-                        "If a student describes a serious safety or mental-health "
-                        "situation, encourage them to contact a trusted person or "
-                        "qualified professional.\n\n"
+                        "Do not claim to diagnose mental-health conditions.\n\n"
                         f"Student selected topic: {topic}\n\n"
                         f"Student question: {question}"
                     )
@@ -462,7 +459,8 @@ elif page == "💬 Ask Student AI":
                     "🤖 Student AI is temporarily busy. "
                     "Please try again in a moment."
                 )
-                
+            st.divider()
+            st.caption("Student Performance Early-Warning System | Machine Learning + Streamlit")    
         
     
-st.divider(); st.caption("Student Performance Early-Warning System | Machine Learning + Streamlit")
+s
