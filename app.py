@@ -727,15 +727,19 @@ elif page == "💚 Well-being":
             help="1 = Very low, 5 = Very good"
         )
 
-    with col2:
+   with col2:
 
-        stress = st.slider(
-            "Current Stress Level",
-            min_value=1,
-            max_value=5,
-            value=3,
-            help="1 = Very low, 5 = Very high"
-        )
+    st.markdown(
+        """
+        <div class="small-card">
+            <h3>🌙 Take Care of Yourself</h3>
+            <p>Sleep, routine and well-being can all influence how effectively you study.</p>
+            <h3>💬 Ask for Guidance</h3>
+            <p>When something feels difficult, use Student AI or speak with someone you trust.</p>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
     st.divider()
 
