@@ -431,12 +431,12 @@ elif page == "💬 Ask Student AI":
 
         else:
 
-               client = genai.Client(
+             client = genai.Client(
                     api_key=st.secrets["GEMINI_API_KEY"]
                 )
 
-                response = client.models.generate_content(
-                    model="gemini-3.6-flash",
+             response = client.models.generate_content(
+                model="gemini-3.6-flash",
                     contents=(
                         "You are Student AI, an academic support assistant "
                         "inside a student performance early-warning application. "
@@ -452,7 +452,7 @@ elif page == "💬 Ask Student AI":
                     )
                 )
 
-                st.subheader("💡 Student AI Response")
-                st.write(response.text)
+              st.subheader("💡 Student AI Response")
+              st.write(response.text)
     
 st.divider(); st.caption("Student Performance Early-Warning System | Machine Learning + Streamlit")
