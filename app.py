@@ -381,58 +381,49 @@ if page == "🏠 Dashboard":
             unsafe_allow_html=True
         )
 
-    # --------------------------------------------------------
-    # STUDENT WELL-BEING
-    # --------------------------------------------------------
+   # --------------------------------------------------------
+# STUDENT WELL-BEING
+# --------------------------------------------------------
 
-    st.divider()
+st.divider()
 
-    st.subheader("🌱 Your Student Journey")
+st.subheader("🌱 Your Student Journey")
 
-    col1, col2 = st.columns(2)
+col1, col2 = st.columns(2)
 
-    with col1:
+with col1:
 
-        st.markdown(
-            """
-            <div class="small-card">
-                <h3>📈 Track Your Progress</h3>
-                <p>
-                    Monitor marks, attendance and study
-                    habits to understand your academic journey.
-                </p>
+    st.markdown(
+        """
+        <div class="small-card">
+            <h3>📈 Track Your Progress</h3>
+            <p>Monitor marks, attendance and study habits
+            to understand your academic journey.</p>
+            <br>
+            <h3>🎯 Set Better Goals</h3>
+            <p>Focus on small, realistic improvements
+            instead of trying to change everything at once.</p>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
-                <h3>🎯 Set Better Goals</h3>
-                <p>
-                    Focus on small, realistic improvements
-                    instead of trying to change everything at once.
-                </p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+with col2:
 
-    with col2:
-
-        st.markdown(
-            """
-            <div class="small-card">
-                <h3>🌙 Take Care of Yourself</h3>
-                <p>
-                    Sleep, routine and well-being can all
-                    influence how effectively you study.
-                </p>
-
-                <h3>💬 Ask for Guidance</h3>
-                <p>
-                    When something feels difficult, use
-                    Student AI or speak with someone you trust.
-                </p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
+    st.markdown(
+        """
+        <div class="small-card">
+            <h3>🌙 Take Care of Yourself</h3>
+            <p>Sleep, routine and well-being can all
+            influence how effectively you study.</p>
+            <br>
+            <h3>💬 Ask for Guidance</h3>
+            <p>When something feels difficult, use
+            Student AI or speak with someone you trust.</p>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
     # --------------------------------------------------------
     # PERSONALIZED TIP
     # --------------------------------------------------------
