@@ -418,11 +418,11 @@ elif page == "💬 Ask Student AI":
         height=150
     )
 
-    if st.button(
+        if st.button(
         "🤖 Ask Student AI",
         use_container_width=True
     ):
-            if not question.strip():
+        if not question.strip():
             st.warning("Please enter a question first.")
 
         else:
@@ -455,5 +455,4 @@ elif page == "💬 Ask Student AI":
 
 
 st.divider()
-st.caption("Student Performance Early-Warning System | Machine Learning + Streamlit")
-    
+st.caption("Student Performance Early-Warning System | Machine Learning + Streamlit") 
