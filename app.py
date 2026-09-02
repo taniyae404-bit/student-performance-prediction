@@ -429,13 +429,14 @@ elif page == "💬 Ask Student AI":
                 "Please enter a question first."
             )
 
-        else:
+               else:
 
             client = genai.Client(
                 api_key=st.secrets["GEMINI_API_KEY"]
             )
 
-                       try:
+            try:
+
                 response = client.models.generate_content(
                     model="gemini-3.6-flash",
                     contents=(
@@ -461,6 +462,7 @@ elif page == "💬 Ask Student AI":
                     "🤖 Student AI is temporarily busy. "
                     "Please try again in a moment."
                 )
+                
         
-    )
+    
 st.divider(); st.caption("Student Performance Early-Warning System | Machine Learning + Streamlit")
