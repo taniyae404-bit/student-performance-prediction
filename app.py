@@ -10,8 +10,11 @@ import joblib
 st.set_page_config(
     page_title="Student Performance AI",
     page_icon="🎓",
-    layout="wide",
-    # ============================================================
+    layout="wide"
+)
+
+
+# ============================================================
 # PROFESSIONAL APP DESIGN
 # ============================================================
 
@@ -19,31 +22,21 @@ st.markdown(
     """
     <style>
 
-    /* Main background */
     .stApp {
         background: #f7f9fc;
     }
 
-    /* Main content */
     .block-container {
         padding-top: 2rem;
         padding-bottom: 3rem;
         max-width: 1250px;
     }
 
-    /* Sidebar */
     section[data-testid="stSidebar"] {
         background: #ffffff;
         border-right: 1px solid #e6eaf0;
     }
 
-    /* Sidebar title */
-    section[data-testid="stSidebar"] h1 {
-        font-size: 1.35rem;
-        font-weight: 700;
-    }
-
-    /* Headings */
     h1 {
         font-weight: 750 !important;
         letter-spacing: -0.5px;
@@ -57,7 +50,6 @@ st.markdown(
         font-weight: 650 !important;
     }
 
-    /* Metric cards */
     div[data-testid="stMetric"] {
         background: #ffffff;
         border: 1px solid #e6eaf0;
@@ -66,51 +58,17 @@ st.markdown(
         box-shadow: 0 4px 14px rgba(0,0,0,0.04);
     }
 
-    div[data-testid="stMetricLabel"] {
-        font-weight: 600;
-    }
-
-    /* Buttons */
     .stButton > button {
         border-radius: 10px;
         font-weight: 600;
         min-height: 45px;
-        transition: all 0.2s ease;
     }
 
-    .stButton > button:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 5px 12px rgba(0,0,0,0.10);
-    }
-
-    /* Input boxes */
-    div[data-baseweb="input"] > div,
-    div[data-baseweb="select"] > div,
-    textarea {
-        border-radius: 10px !important;
-    }
-
-    /* Info / success / warning cards */
     div[data-testid="stAlert"] {
         border-radius: 12px;
     }
 
-    /* Divider */
-    hr {
-        margin-top: 1.5rem;
-        margin-bottom: 1.5rem;
-    }
-
-    /* Footer */
-    .app-footer {
-        text-align: center;
-        color: #7a8494;
-        font-size: 0.85rem;
-        padding: 25px 0 10px 0;
-    }
-
-    /* Welcome banner */
-    .welcome-card {
+    .hero-card {
         background: linear-gradient(
             135deg,
             #eef4ff 0%,
@@ -118,191 +76,17 @@ st.markdown(
         );
         border: 1px solid #dbe7ff;
         border-radius: 18px;
-        padding: 25px 28px;
+        padding: 28px;
         margin-bottom: 25px;
     }
 
-    .welcome-title {
-        font-size: 1.7rem;
-        font-weight: 750;
-        margin-bottom: 6px;
-    }
-
-    .welcome-text {
-        color: #596579;
-        font-size: 1rem;
-    }
-
-    /* Quick action cards */
-    .feature-card {
+    .small-card {
         background: #ffffff;
         border: 1px solid #e6eaf0;
         border-radius: 16px;
         padding: 20px;
         min-height: 145px;
         box-shadow: 0 4px 14px rgba(0,0,0,0.03);
-    }
-
-    .feature-title {
-        font-weight: 700;
-        font-size: 1.05rem;
-        margin-bottom: 8px;
-    }
-
-    .feature-text {
-        color: #667085;
-        font-size: 0.92rem;
-        line-height: 1.5;
-    }
-
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-    initial_sidebar_state="expanded"
-)
-
-
-# ============================================================
-# CUSTOM DESIGN
-# ============================================================
-
-st.markdown(
-    """
-    <style>
-
-    /* Main background */
-    .stApp {
-        background: linear-gradient(
-            135deg,
-            #f8faff 0%,
-            #eef4ff 50%,
-            #f8f5ff 100%
-        );
-    }
-
-    /* Main content */
-    .block-container {
-        padding-top: 2rem;
-        padding-bottom: 3rem;
-        max-width: 1200px;
-    }
-
-    /* Sidebar */
-    [data-testid="stSidebar"] {
-        background: linear-gradient(
-            180deg,
-            #172554 0%,
-            #312e81 100%
-        );
-    }
-
-    [data-testid="stSidebar"] * {
-        color: white !important;
-    }
-
-    /* Titles */
-    h1 {
-        font-weight: 800 !important;
-        letter-spacing: -0.5px;
-    }
-
-    h2, h3 {
-        font-weight: 700 !important;
-    }
-
-    /* Metric cards */
-    [data-testid="stMetric"] {
-        background: rgba(255, 255, 255, 0.88);
-        border: 1px solid rgba(99, 102, 241, 0.12);
-        border-radius: 18px;
-        padding: 18px;
-        box-shadow: 0 8px 24px rgba(30, 41, 59, 0.07);
-    }
-
-    [data-testid="stMetricLabel"] {
-        font-weight: 600;
-    }
-
-    /* Buttons */
-    .stButton > button {
-        border-radius: 12px;
-        min-height: 48px;
-        font-weight: 700;
-        border: none;
-        background: linear-gradient(
-            90deg,
-            #4f46e5,
-            #7c3aed
-        );
-        color: white;
-        box-shadow: 0 6px 16px rgba(79, 70, 229, 0.20);
-        transition: all 0.2s ease;
-    }
-
-    .stButton > button:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 8px 20px rgba(79, 70, 229, 0.30);
-    }
-
-    /* Info / success / warning boxes */
-    .stAlert {
-        border-radius: 14px;
-    }
-
-    /* Inputs */
-    div[data-baseweb="input"] > div,
-    div[data-baseweb="select"] > div {
-        border-radius: 10px;
-    }
-
-    /* Section cards */
-    .section-card {
-        background: rgba(255, 255, 255, 0.86);
-        border-radius: 20px;
-        padding: 24px;
-        margin: 12px 0 22px 0;
-        border: 1px solid rgba(99, 102, 241, 0.10);
-        box-shadow: 0 8px 25px rgba(30, 41, 59, 0.06);
-    }
-
-    .hero-card {
-        background: linear-gradient(
-            135deg,
-            #312e81,
-            #4f46e5,
-            #7c3aed
-        );
-        color: white;
-        padding: 32px;
-        border-radius: 24px;
-        margin-bottom: 25px;
-        box-shadow: 0 12px 30px rgba(49, 46, 129, 0.25);
-    }
-
-    .hero-card h1,
-    .hero-card p {
-        color: white !important;
-    }
-
-    .small-card {
-        background: white;
-        border-radius: 18px;
-        padding: 20px;
-        height: 100%;
-        border: 1px solid rgba(99, 102, 241, 0.10);
-        box-shadow: 0 7px 20px rgba(30, 41, 59, 0.06);
-    }
-
-    .small-card h3 {
-        margin-top: 0;
-    }
-
-    .footer {
-        text-align: center;
-        padding: 25px 0 5px 0;
-        color: #64748b;
-        font-size: 0.9rem;
     }
 
     </style>
@@ -315,16 +99,31 @@ st.markdown(
 # SESSION STATE
 # ============================================================
 
-defaults = {
-    "average_marks": None,
-    "attendance": None,
-    "risk_probability": None,
-    "risk_status": "Not Assessed",
-    "study_hours": None,
-    "sleep_hours": None,
-    "mood": None,
-    "stress": None
-}
+if "average_marks" not in st.session_state:
+    st.session_state.average_marks = None
+
+if "attendance" not in st.session_state:
+    st.session_state.attendance = None
+
+if "risk_probability" not in st.session_state:
+    st.session_state.risk_probability = None
+
+if "risk_status" not in st.session_state:
+    st.session_state.risk_status = "Not Assessed"
+
+if "study_hours" not in st.session_state:
+    st.session_state.study_hours = None
+
+if "sleep_hours" not in st.session_state:
+    st.session_state.sleep_hours = None
+
+if "mood" not in st.session_state:
+    st.session_state.mood = None
+
+if "stress" not in st.session_state:
+    st.session_state.stress = None
+
+
 
 for key, value in defaults.items():
     if key not in st.session_state:
