@@ -431,7 +431,7 @@ elif page == "💬 Ask Student AI":
 
         else:
 
-                                client = genai.Client(
+               client = genai.Client(
                     api_key=st.secrets["GEMINI_API_KEY"]
                 )
 
