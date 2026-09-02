@@ -183,19 +183,32 @@ st.sidebar.markdown(
 
 if page == "🏠 Dashboard":
 
+    # --------------------------------------------------------
+    # HERO SECTION
+    # --------------------------------------------------------
+
     st.markdown(
         """
         <div class="hero-card">
-            <h1>🎓 Student Performance AI</h1>
-            <p>
-                A smart early-warning platform designed to help
-                students understand their academic progress,
-                study habits and well-being.
-            </p>
+            <div class="hero-content">
+                <div class="hero-icon">🎓</div>
+                <div>
+                    <h1>Student Performance AI</h1>
+                    <p>
+                        Your personal academic companion for tracking
+                        performance, building better habits and
+                        identifying potential academic challenges early.
+                    </p>
+                </div>
+            </div>
         </div>
         """,
         unsafe_allow_html=True
     )
+
+    # --------------------------------------------------------
+    # OVERVIEW
+    # --------------------------------------------------------
 
     st.subheader("📊 Student Overview")
 
@@ -205,55 +218,55 @@ if page == "🏠 Dashboard":
 
         if st.session_state.risk_probability is not None:
             st.metric(
-    "Risk Probability",
-    f"{st.session_state.risk_probability:.1%}",
-    border=True
-)
+                "🧠 Risk Probability",
+                f"{st.session_state.risk_probability:.1%}"
+            )
         else:
             st.metric(
-                "Risk Probability",
+                "🧠 Risk Probability",
                 "—"
             )
 
     with col2:
 
         st.metric(
-    "Academic Status",
-    st.session_state.risk_status,
-    border=True
-)
+            "📌 Academic Status",
+            st.session_state.risk_status
+        )
 
     with col3:
 
         if st.session_state.study_hours is not None:
             st.metric(
-    "Study Hours",
-    f"{st.session_state.study_hours:.1f} hrs",
-    border=True
-)
+                "📚 Study Hours",
+                f"{st.session_state.study_hours:.1f} hrs"
+            )
         else:
             st.metric(
-                "Study Hours",
+                "📚 Study Hours",
                 "—"
             )
 
     with col4:
 
         if st.session_state.sleep_hours is not None:
-           st.metric(
-    "Sleep",
-    f"{st.session_state.sleep_hours:.1f} hrs",
-    border=True
-)
+            st.metric(
+                "😴 Sleep",
+                f"{st.session_state.sleep_hours:.1f} hrs"
+            )
         else:
             st.metric(
-                "Sleep",
+                "😴 Sleep",
                 "—"
             )
 
+    # --------------------------------------------------------
+    # ACADEMIC SNAPSHOT
+    # --------------------------------------------------------
+
     st.divider()
 
-    st.subheader("📚 Academic Summary")
+    st.subheader("📚 Academic Snapshot")
 
     if st.session_state.average_marks is not None:
 
@@ -266,6 +279,24 @@ if page == "🏠 Dashboard":
                 f"{st.session_state.average_marks:.1f}/100"
             )
 
+            if st.session_state.average_marks >= 75:
+
+                st.success(
+                    "🌟 Excellent performance!"
+                )
+
+            elif st.session_state.average_marks >= 50:
+
+                st.info(
+                    "👍 Your performance is satisfactory."
+                )
+
+            else:
+
+                st.warning(
+                    "⚠️ This area may need more attention."
+                )
+
         with col2:
 
             st.metric(
@@ -273,12 +304,28 @@ if page == "🏠 Dashboard":
                 f"{st.session_state.attendance:.0f}%"
             )
 
+            if st.session_state.attendance >= 75:
+
+                st.success(
+                    "✅ Attendance is looking good."
+                )
+
+            else:
+
+                st.warning(
+                    "⚠️ Consider improving attendance."
+                )
+
     else:
 
         st.info(
             "📌 Complete the Academic Performance section "
-            "to see your academic summary here."
+            "to see your academic snapshot."
         )
+
+    # --------------------------------------------------------
+    # QUICK ACTIONS
+    # --------------------------------------------------------
 
     st.divider()
 
@@ -291,10 +338,11 @@ if page == "🏠 Dashboard":
         st.markdown(
             """
             <div class="small-card">
-                <h3>📚 Academic Performance</h3>
+                <div class="card-icon">📚</div>
+                <h3>Academic Performance</h3>
                 <p>
                     Record your marks and attendance
-                    and review your academic progress.
+                    and keep track of your progress.
                 </p>
             </div>
             """,
@@ -306,10 +354,11 @@ if page == "🏠 Dashboard":
         st.markdown(
             """
             <div class="small-card">
-                <h3>🧠 Risk Assessment</h3>
+                <div class="card-icon">🧠</div>
+                <h3>Risk Assessment</h3>
                 <p>
-                    Use the machine-learning model to
-                    identify potential academic risk.
+                    Use machine learning to identify
+                    potential academic risk early.
                 </p>
             </div>
             """,
@@ -321,19 +370,24 @@ if page == "🏠 Dashboard":
         st.markdown(
             """
             <div class="small-card">
-                <h3>💬 Ask Student AI</h3>
+                <div class="card-icon">💬</div>
+                <h3>Ask Student AI</h3>
                 <p>
-                    Describe an academic difficulty and
-                    receive practical guidance.
+                    Get practical guidance for
+                    common academic challenges.
                 </p>
             </div>
             """,
             unsafe_allow_html=True
         )
 
+    # --------------------------------------------------------
+    # STUDENT WELL-BEING
+    # --------------------------------------------------------
+
     st.divider()
 
-    st.subheader("🌱 How This App Helps")
+    st.subheader("🌱 Your Student Journey")
 
     col1, col2 = st.columns(2)
 
@@ -342,17 +396,17 @@ if page == "🏠 Dashboard":
         st.markdown(
             """
             <div class="small-card">
+                <h3>📈 Track Your Progress</h3>
+                <p>
+                    Monitor marks, attendance and study
+                    habits to understand your academic journey.
+                </p>
 
-            ### 📈 Track Progress
-
-            Keep an eye on your marks, attendance,
-            study routine and other important factors.
-
-            ### 🧠 Identify Potential Risk
-
-            The ML model provides an early-warning
-            indication based on the information you enter.
-
+                <h3>🎯 Set Better Goals</h3>
+                <p>
+                    Focus on small, realistic improvements
+                    instead of trying to change everything at once.
+                </p>
             </div>
             """,
             unsafe_allow_html=True
@@ -363,29 +417,70 @@ if page == "🏠 Dashboard":
         st.markdown(
             """
             <div class="small-card">
+                <h3>🌙 Take Care of Yourself</h3>
+                <p>
+                    Sleep, routine and well-being can all
+                    influence how effectively you study.
+                </p>
 
-            ### 🌱 Build Better Habits
-
-            Monitor sleep, study habits and well-being
-            to understand factors that may affect your studies.
-
-            ### 💬 Get Guidance
-
-            Use Student AI for simple suggestions when
-            you are facing academic difficulties.
-
+                <h3>💬 Ask for Guidance</h3>
+                <p>
+                    When something feels difficult, use
+                    Student AI or speak with someone you trust.
+                </p>
             </div>
             """,
             unsafe_allow_html=True
         )
 
+    # --------------------------------------------------------
+    # PERSONALIZED TIP
+    # --------------------------------------------------------
+
     st.divider()
 
-    st.success(
-        "💡 Regularly reviewing your academic progress "
-        "can help identify areas that may need attention."
-    )
+    st.subheader("💡 Student Tip")
 
+    if st.session_state.average_marks is None:
+
+        st.info(
+            "🎯 Start by entering your marks and attendance "
+            "in Academic Performance."
+        )
+
+    elif st.session_state.average_marks < 50:
+
+        st.warning(
+            "📚 Focus on the subjects where you are struggling "
+            "most and practise them regularly."
+        )
+
+    elif (
+        st.session_state.study_hours is not None
+        and st.session_state.study_hours < 2
+    ):
+
+        st.info(
+            "⏱️ Try adding a short focused study session "
+            "to your daily routine."
+        )
+
+    elif (
+        st.session_state.sleep_hours is not None
+        and st.session_state.sleep_hours < 6
+    ):
+
+        st.info(
+            "😴 Your sleep routine may need attention. "
+            "Try to maintain a consistent sleep schedule."
+        )
+
+    else:
+
+        st.success(
+            "🌟 Keep going! Consistency is one of the most "
+            "important parts of academic progress."
+        )
 
 # ============================================================
 # ACADEMIC PERFORMANCE
