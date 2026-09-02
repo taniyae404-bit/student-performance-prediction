@@ -366,37 +366,7 @@ if page == "🏠 Dashboard":
             unsafe_allow_html=True
         )
 
-    # --------------------------------------------------------
-    # STUDENT WELL-BEING
-    # --------------------------------------------------------
-
-    st.divider()
-
-    st.subheader("🌱 Your Student Journey")
-
-    col1, col2 = st.columns(2)
-
-    with col1:
-
-        st.markdown(
-            """
-            <div class="small-card">
-                <h3>📈 Track Your Progress</h3>
-                <p>
-                    Monitor marks, attendance and study habits
-                    to understand your academic journey.
-                </p>
-
-                <h3>🎯 Set Better Goals</h3>
-                <p>
-                    Focus on small, realistic improvements
-                    instead of trying to change everything at once.
-                </p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
+   
     with col2:
 
         st.markdown(
