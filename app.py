@@ -429,7 +429,7 @@ elif page == "💬 Ask Student AI":
                 "Please enter a question first."
             )
 
-                else:
+        else:
 
             client = genai.Client(
                 api_key=st.secrets["GEMINI_API_KEY"]
