@@ -429,30 +429,30 @@ elif page == "💬 Ask Student AI":
                 "Please enter a question first."
             )
 
-        else:
+                else:
 
-             client = genai.Client(
-                    api_key=st.secrets["GEMINI_API_KEY"]
-                )
+            client = genai.Client(
+                api_key=st.secrets["GEMINI_API_KEY"]
+            )
 
-             response = client.models.generate_content(
+            response = client.models.generate_content(
                 model="gemini-3.6-flash",
-                    contents=(
-                        "You are Student AI, an academic support assistant "
-                        "inside a student performance early-warning application. "
-                        "Give clear, practical and encouraging answers to students. "
-                        "Focus on academic performance, study habits, exam preparation, "
-                        "attendance, motivation and general student well-being. "
-                        "Do not claim to diagnose mental-health conditions. "
-                        "If a student describes a serious safety or mental-health "
-                        "situation, encourage them to contact a trusted person or "
-                        "qualified professional.\n\n"
-                        f"Student selected topic: {topic}\n\n"
-                        f"Student question: {question}"
-                    )
+                contents=(
+                    "You are Student AI, an academic support assistant "
+                    "inside a student performance early-warning application. "
+                    "Give clear, practical and encouraging answers to students. "
+                    "Focus on academic performance, study habits, exam preparation, "
+                    "attendance, motivation and general student well-being. "
+                    "Do not claim to diagnose mental-health conditions. "
+                    "If a student describes a serious safety or mental-health "
+                    "situation, encourage them to contact a trusted person or "
+                    "qualified professional.\n\n"
+                    f"Student selected topic: {topic}\n\n"
+                    f"Student question: {question}"
                 )
+            )
 
             st.subheader("💡 Student AI Response")
+
             st.write(response.text)
-    
 st.divider(); st.caption("Student Performance Early-Warning System | Machine Learning + Streamlit")
