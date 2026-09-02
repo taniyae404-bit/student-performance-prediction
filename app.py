@@ -11,6 +11,154 @@ st.set_page_config(
     page_title="Student Performance AI",
     page_icon="🎓",
     layout="wide",
+    # ============================================================
+# PROFESSIONAL APP DESIGN
+# ============================================================
+
+st.markdown(
+    """
+    <style>
+
+    /* Main background */
+    .stApp {
+        background: #f7f9fc;
+    }
+
+    /* Main content */
+    .block-container {
+        padding-top: 2rem;
+        padding-bottom: 3rem;
+        max-width: 1250px;
+    }
+
+    /* Sidebar */
+    section[data-testid="stSidebar"] {
+        background: #ffffff;
+        border-right: 1px solid #e6eaf0;
+    }
+
+    /* Sidebar title */
+    section[data-testid="stSidebar"] h1 {
+        font-size: 1.35rem;
+        font-weight: 700;
+    }
+
+    /* Headings */
+    h1 {
+        font-weight: 750 !important;
+        letter-spacing: -0.5px;
+    }
+
+    h2 {
+        font-weight: 700 !important;
+    }
+
+    h3 {
+        font-weight: 650 !important;
+    }
+
+    /* Metric cards */
+    div[data-testid="stMetric"] {
+        background: #ffffff;
+        border: 1px solid #e6eaf0;
+        border-radius: 16px;
+        padding: 18px;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+    }
+
+    div[data-testid="stMetricLabel"] {
+        font-weight: 600;
+    }
+
+    /* Buttons */
+    .stButton > button {
+        border-radius: 10px;
+        font-weight: 600;
+        min-height: 45px;
+        transition: all 0.2s ease;
+    }
+
+    .stButton > button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 5px 12px rgba(0,0,0,0.10);
+    }
+
+    /* Input boxes */
+    div[data-baseweb="input"] > div,
+    div[data-baseweb="select"] > div,
+    textarea {
+        border-radius: 10px !important;
+    }
+
+    /* Info / success / warning cards */
+    div[data-testid="stAlert"] {
+        border-radius: 12px;
+    }
+
+    /* Divider */
+    hr {
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Footer */
+    .app-footer {
+        text-align: center;
+        color: #7a8494;
+        font-size: 0.85rem;
+        padding: 25px 0 10px 0;
+    }
+
+    /* Welcome banner */
+    .welcome-card {
+        background: linear-gradient(
+            135deg,
+            #eef4ff 0%,
+            #f8fbff 100%
+        );
+        border: 1px solid #dbe7ff;
+        border-radius: 18px;
+        padding: 25px 28px;
+        margin-bottom: 25px;
+    }
+
+    .welcome-title {
+        font-size: 1.7rem;
+        font-weight: 750;
+        margin-bottom: 6px;
+    }
+
+    .welcome-text {
+        color: #596579;
+        font-size: 1rem;
+    }
+
+    /* Quick action cards */
+    .feature-card {
+        background: #ffffff;
+        border: 1px solid #e6eaf0;
+        border-radius: 16px;
+        padding: 20px;
+        min-height: 145px;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.03);
+    }
+
+    .feature-title {
+        font-weight: 700;
+        font-size: 1.05rem;
+        margin-bottom: 8px;
+    }
+
+    .feature-text {
+        color: #667085;
+        font-size: 0.92rem;
+        line-height: 1.5;
+    }
+
+    </style>
+    """,
+    unsafe_allow_html=True
+)
     initial_sidebar_state="expanded"
 )
 
@@ -264,9 +412,10 @@ if page == "🏠 Dashboard":
 
         if st.session_state.risk_probability is not None:
             st.metric(
-                "Risk Probability",
-                f"{st.session_state.risk_probability:.1%}"
-            )
+    "Risk Probability",
+    f"{st.session_state.risk_probability:.1%}",
+    border=True
+)
         else:
             st.metric(
                 "Risk Probability",
@@ -276,17 +425,19 @@ if page == "🏠 Dashboard":
     with col2:
 
         st.metric(
-            "Academic Status",
-            st.session_state.risk_status
-        )
+    "Academic Status",
+    st.session_state.risk_status,
+    border=True
+)
 
     with col3:
 
         if st.session_state.study_hours is not None:
             st.metric(
-                "Study Hours",
-                f"{st.session_state.study_hours:.1f} hrs"
-            )
+    "Study Hours",
+    f"{st.session_state.study_hours:.1f} hrs",
+    border=True
+)
         else:
             st.metric(
                 "Study Hours",
@@ -296,10 +447,11 @@ if page == "🏠 Dashboard":
     with col4:
 
         if st.session_state.sleep_hours is not None:
-            st.metric(
-                "Sleep",
-                f"{st.session_state.sleep_hours:.1f} hrs"
-            )
+           st.metric(
+    "Sleep",
+    f"{st.session_state.sleep_hours:.1f} hrs",
+    border=True
+)
         else:
             st.metric(
                 "Sleep",
