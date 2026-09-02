@@ -432,12 +432,12 @@ elif page == "💬 Ask Student AI":
         else:
 
                 client = genai.Client(
-                api_key=st.secrets["GEMINI_API_KEY"]
+                         api_key=st.secrets["GEMINI_API_KEY"]
                 )
 
-             response = client.models.generate_content(
-        model="gemini-2.5-flash",
-        contents=(
+                response = client.models.generate_content(
+              model="gemini-2.5-flash",
+              contents=(
             "You are Student AI, an academic support assistant "
             "inside a student performance early-warning application. "
             "Give clear, practical and encouraging answers to students. "
