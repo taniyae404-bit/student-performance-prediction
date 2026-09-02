@@ -456,12 +456,5 @@ elif page == "💬 Ask Student AI":
 
     st.write(response.text)
 
-    except Exception as e:
-
-    st.error(
-        f"Unable to connect to Student AI: {e}"
-    )
-                st.error(
-                    f"Unable to connect to Student AI: {e}"
-                )
+    
 st.divider(); st.caption("Student Performance Early-Warning System | Machine Learning + Streamlit")
